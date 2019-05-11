@@ -9,7 +9,9 @@
                 </a> / {{ $project->title }}
             </p>
 
-            <a href="/projects/create" class="button">Nouveau Projet</a>
+            <a href="/projects/create"
+               @click.prevent="$modal.show('new-project')"
+               class="button">Éditer la Généalogie</a>
         </div>
     </header>
 
@@ -40,4 +42,6 @@
             </div>
         </div>
     </main>
+
+    <new-project-modal :project="{{ $project }}"></new-project-modal>
 @endsection

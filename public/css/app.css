@@ -574,7 +574,6 @@ table {
 
 .button {
   background-color: #47cdff;
-  color: #fff;
   text-decoration: none;
   border-radius: .5rem;
   font-size: .875rem;
@@ -582,7 +581,15 @@ table {
   padding-bottom: .5rem;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+  color: white;
   box-shadow: 0 2px 7px 0 #b0eaff;
+}
+
+.button.is-outlined {
+  background-color: #fff;
+  border-width: 1px;
+  border-color: #47cdff;
+  color: #47cdff;
 }
 
 .card {
