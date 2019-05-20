@@ -19,11 +19,18 @@
         <div class="lg:flex -mx-3">
             <div class="lg:w-3/4 px-3 mb-6">
                 <div class="mb-8">
-                    <h2 class="text-grey font-normal text-lg mb-3">Dernières Personnes Ajoutées</h2>
+                    <div class="flex items-center justify-start mb-3">
+                        <h2 class="text-grey font-normal text-lg">Dernières Personnes Ajoutées</h2>
+
+                        <button @click.prevent="$modal.show('new-person')"
+                                class="button ml-3">Ajouter une Personne</button>
+                    </div>
 
                     @forelse($project->persons as $person)
                         <div class="card mb-3">
-                            {{ $person->firstname . ' ' . $person->name }}
+                            <a href="{{ $person->path() }}" class="font-normal no-underline text-black">
+                                {{ $person->completeName() }}
+                            </a>
                         </div>
                     @empty
                         <div class="card mb-3">Ajouter une nouvelle personne</div>
@@ -44,4 +51,6 @@
     </main>
 
     <new-project-modal :project="{{ $project }}"></new-project-modal>
+
+    <new-person-modal :project="{{ $project }}"></new-person-modal>
 @endsection

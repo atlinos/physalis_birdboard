@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Person;
 use App\Project;
 use Illuminate\Http\Request;
 
@@ -18,8 +19,17 @@ class ProjectPersonsController extends Controller
             'firstname' => 'required'
         ]);
 
-        $project->addPerson(request()->all());
+        $person = $project->addPerson(request()->all());
 
-        return redirect($project->path());
+        if (request()->wantsJson()) {
+            return ['message' => $person->path()];
+        }
+
+        return redirect($person->path());
+    }
+
+    public function show(Project $project, Person $person)
+    {
+        return view('persons.show', compact('project', 'person'));
     }
 }

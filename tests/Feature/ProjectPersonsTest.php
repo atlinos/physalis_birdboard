@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Person;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -50,9 +51,11 @@ class ProjectPersonsTest extends TestCase
             'firstname' => 'John'
         ];
 
-        $this->post($project->path() . '/persons', $attributes);
+        $response = $this->post($project->path() . '/persons', $attributes);
+        
+        $person = Person::first();
 
-        $this->get($project->path())
+        $response->assertRedirect($person->path())
             ->assertSee($attributes['name'])
             ->assertSee($attributes['firstname']);
     }
