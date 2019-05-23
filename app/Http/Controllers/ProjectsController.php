@@ -57,6 +57,10 @@ class ProjectsController extends Controller
 
         $project->update($attributes);
 
+        if (request()->wantsJson()) {
+            return ['message' => $project->path()];
+        }
+
         return redirect($project->path());
     }
 

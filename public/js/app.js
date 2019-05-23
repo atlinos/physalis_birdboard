@@ -1895,35 +1895,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['project'],
+  props: ['person'],
   data: function data() {
     return {
+      editable: this.person,
       form: {
-        name: '',
-        firstname: '',
-        gender: '',
-        birthdate: '',
-        birthplace: '',
-        profession: '',
-        death_date: '',
-        death_place: '',
-        death_age: ''
-      }
+        name: this.person ? this.person.name : '',
+        firstname: this.person ? this.person.firstname : '',
+        gender: this.person ? this.person.gender : '',
+        birthdate: this.person ? this.person.birthdate : '',
+        birthplace: this.person ? this.person.birthplace : '',
+        profession: this.person ? this.person.profession : '',
+        death_date: this.person ? this.person.death_date : '',
+        death_place: this.person ? this.person.death_place : '',
+        death_age: this.person ? this.person.death_age : ''
+      },
+      errors: {}
     };
   },
   methods: {
@@ -1931,30 +1919,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this = this;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                _context.next = 3;
-                return axios.post('/projects/' + this.project.id + '/persons', this.form);
 
-              case 3:
-                location = _context.sent.data.message;
-                _context.next = 9;
+                if (!this.editable) {
+                  _context.next = 5;
+                  break;
+                }
+
+                axios.patch(location.pathname, this.form).then(function (response) {
+                  return location = response.data.message;
+                })["catch"](function (error) {
+                  return _this.errors = error.response.data.errors;
+                });
+                _context.next = 8;
                 break;
 
-              case 6:
-                _context.prev = 6;
+              case 5:
+                _context.next = 7;
+                return axios.post(location.pathname + '/persons', this.form);
+
+              case 7:
+                location = _context.sent.data.message;
+
+              case 8:
+                _context.next = 13;
+                break;
+
+              case 10:
+                _context.prev = 10;
                 _context.t0 = _context["catch"](0);
                 this.errors = _context.t0.response.data.errors;
 
-              case 9:
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 6]]);
+        }, _callee, this, [[0, 10]]);
       }));
 
       function submit() {
@@ -2038,6 +2045,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this = this;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2045,39 +2054,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.prev = 0;
 
                 if (!this.editable) {
-                  _context.next = 6;
+                  _context.next = 5;
                   break;
                 }
 
-                _context.next = 4;
-                return axios.patch('/projects/' + this.project.id, this.form);
-
-              case 4:
-                _context.next = 9;
+                axios.patch(location.pathname, this.form).then(function (response) {
+                  return location = response.data.message;
+                })["catch"](function (error) {
+                  return _this.errors = error.response.data.errors;
+                });
+                _context.next = 8;
                 break;
 
-              case 6:
-                _context.next = 8;
+              case 5:
+                _context.next = 7;
                 return axios.post('/projects', this.form);
 
-              case 8:
+              case 7:
                 location = _context.sent.data.message;
 
-              case 9:
-                _context.next = 14;
+              case 8:
+                _context.next = 13;
                 break;
 
-              case 11:
-                _context.prev = 11;
+              case 10:
+                _context.prev = 10;
                 _context.t0 = _context["catch"](0);
                 this.errors = _context.t0.response.data.errors;
 
-              case 14:
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 11]]);
+        }, _callee, this, [[0, 10]]);
       }));
 
       function submit() {
@@ -38148,9 +38158,19 @@ var render = function() {
       }
     },
     [
-      _c("h1", { staticClass: "font-normal mb-10 text-center text-2xl" }, [
-        _vm._v("Créer une Nouvelle Personne")
-      ]),
+      _vm.editable
+        ? _c("h1", { staticClass: "font-normal mb-10 text-center text-2xl" }, [
+            _vm._v(
+              "\n            Modifier " +
+                _vm._s(_vm.form.firstname) +
+                " " +
+                _vm._s(_vm.form.name) +
+                "\n        "
+            )
+          ])
+        : _c("h1", { staticClass: "font-normal mb-10 text-center text-2xl" }, [
+            _vm._v("\n            Créer une Nouvelle Personne\n        ")
+          ]),
       _vm._v(" "),
       _c(
         "form",
@@ -38182,6 +38202,7 @@ var render = function() {
                 ],
                 staticClass:
                   "border border-grey p-2 text-sm block w-full rounded text-grey",
+                class: _vm.errors.name ? "border-red" : "border-grey",
                 attrs: { type: "text", name: "name" },
                 domProps: { value: _vm.form.name },
                 on: {
@@ -38192,7 +38213,14 @@ var render = function() {
                     _vm.$set(_vm.form, "name", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _vm.errors.name
+                ? _c("span", {
+                    staticClass: "text-sm italic text-red",
+                    domProps: { textContent: _vm._s(_vm.errors.name[0]) }
+                  })
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flex-1 ml-2 mb-4" }, [
@@ -38216,6 +38244,7 @@ var render = function() {
                 ],
                 staticClass:
                   "border border-grey p-2 text-sm block w-full rounded text-grey",
+                class: _vm.errors.firstname ? "border-red" : "border-grey",
                 attrs: { type: "text", name: "firstname" },
                 domProps: { value: _vm.form.firstname },
                 on: {
@@ -38226,7 +38255,14 @@ var render = function() {
                     _vm.$set(_vm.form, "firstname", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _vm.errors.firstname
+                ? _c("span", {
+                    staticClass: "text-sm italic text-red",
+                    domProps: { textContent: _vm._s(_vm.errors.firstname[0]) }
+                  })
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
@@ -38506,9 +38542,16 @@ var render = function() {
               [_vm._v("Annuler")]
             ),
             _vm._v(" "),
-            _c("button", { staticClass: "button" }, [
-              _vm._v("Créer la Personne")
-            ])
+            _c("button", {
+              staticClass: "button",
+              domProps: {
+                textContent: _vm._s(
+                  _vm.editable
+                    ? "Valider les Modifications"
+                    : "Créer la Personne"
+                )
+              }
+            })
           ])
         ]
       )

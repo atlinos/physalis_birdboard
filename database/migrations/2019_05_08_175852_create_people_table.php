@@ -25,6 +25,7 @@ class CreatePeopleTable extends Migration
             $table->string('death_place')->nullable();
             $table->date('death_date')->nullable();
             $table->tinyInteger('death_age')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

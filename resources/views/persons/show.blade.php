@@ -61,7 +61,7 @@
                     <div class="flex items-center">
                         <div class="flex-1">
                             <div class="card mb-3">
-                                <div class="flex justify-between mb-2">
+                                <div class="flex items-center justify-between mb-2">
                                     <h4 class="font-normal mb-1">{{ $person->completeName() }}</h4>
 
                                     <div>
@@ -91,12 +91,17 @@
                                     @endif
                                     </div>
                                 </div>
-                                <div class="text-grey text-sm w-full mb-1">
-{{--                                    <form method="POST" action="{{ $project->path() }}" class="text-right">--}}
+                                <div class="flex items-center justify-end text-grey text-sm w-full mb-1">
+                                    <button @click.prevent="$modal.show('new-person')"
+                                            class="button mr-2">
+                                        Modifier
+                                    </button>
+
+{{--                                    <form method="POST" action="{{ $person->path() }}" class="text-right">--}}
 {{--                                        @method('DELETE')--}}
 {{--                                        @csrf--}}
 
-{{--                                        <button type="submit" class="text-xs">Supprimer</button>--}}
+                                        <button type="submit" class="text-sm">Supprimer</button>
 {{--                                    </form>--}}
                                 </div>
                             </div>
@@ -115,10 +120,26 @@
             </div>
 
             <div class="lg:w-1/4 px-3">
-                @include('projects.card')
+                <div class="card mb-4" style="height: 200px">
+                    <form action="{{ $person->path() }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-normal">Notes</h4>
+
+                            <button type="submit" class="text-sm text-grey-darker">Valider</button>
+                        </div>
+
+                        <textarea
+                            name="notes"
+                            rows="7"
+                            class="text-grey-dark text-sm p-2 font-normal w-full border border-grey-light rounded">{{ $person->notes }}</textarea>
+                    </form>
+                </div>
             </div>
         </div>
     </main>
 
-    <new-person-modal :project="{{ $project }}"></new-person-modal>
+    <new-person-modal :person="{{ $person }}"></new-person-modal>
 @endsection

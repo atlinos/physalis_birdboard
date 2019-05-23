@@ -53,7 +53,9 @@
             async submit() {
                 try {
                     if (this.editable) {
-                        await axios.patch('/projects/' + this.project.id, this.form);
+                        axios.patch(location.pathname, this.form)
+                            .then(response => location = response.data.message)
+                            .catch((error) => this.errors = error.response.data.errors);
                     } else {
                         location = (await axios.post('/projects', this.form)).data.message;
                     }

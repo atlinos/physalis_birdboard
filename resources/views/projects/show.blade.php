@@ -52,5 +52,5 @@
 
     <new-project-modal :project="{{ $project }}"></new-project-modal>
 
-    <new-person-modal :project="{{ $project }}"></new-person-modal>
+    <new-person-modal></new-person-modal>
 @endsection

@@ -61,6 +61,30 @@ class ProjectPersonsTest extends TestCase
     }
 
     /** @test */
+    function a_person_can_be_updated()
+    {
+        $this->signIn();
+
+        $person = factory('App\Person')->create();
+
+        $this->patch($person->path(), $attributes = ['name' => 'Changed']);
+
+        $this->assertDatabaseHas('people', $attributes);
+    }
+
+    /** @test */
+    function a_user_can_update_a_persons_notes()
+    {
+        $this->signIn();
+
+        $person = factory('App\Person')->create();
+
+        $this->patch($person->path(), $attributes = ['notes' => 'Changed']);
+
+        $this->assertDatabaseHas('people', $attributes);
+    }
+
+    /** @test */
     public function a_person_requires_a_name()
     {
         $this->signIn();

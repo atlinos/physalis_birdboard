@@ -1,6 +1,12 @@
 <template>
     <modal name="new-person" classes="p-10 bg-white rounded-lg" height="auto">
-        <h1 class="font-normal mb-10 text-center text-2xl">Créer une Nouvelle Personne</h1>
+        <h1 class="font-normal mb-10 text-center text-2xl" v-if="editable">
+            Modifier {{ form.firstname }} {{ form.name }}
+        </h1>
+
+        <h1 class="font-normal mb-10 text-center text-2xl" v-else>
+            Créer une Nouvelle Personne
+        </h1>
 
         <form @submit.prevent="submit">
 <!--            <div class="flex items-center">-->
@@ -10,7 +16,9 @@
                         <input type="text"
                                name="name"
                                class="border border-grey p-2 text-sm block w-full rounded text-grey"
+                               :class="errors.name ? 'border-red' : 'border-grey'"
                                v-model="form.name">
+                        <span class="text-sm italic text-red" v-if="errors.name" v-text="errors.name[0]"></span>
                     </div>
 
                     <div class="flex-1 ml-2 mb-4">
@@ -18,18 +26,14 @@
                         <input type="text"
                                name="firstname"
                                class="border border-grey p-2 text-sm block w-full rounded text-grey"
+                               :class="errors.firstname ? 'border-red' : 'border-grey'"
                                v-model="form.firstname">
+                        <span class="text-sm italic text-red" v-if="errors.firstname" v-text="errors.firstname[0]"></span>
                     </div>
                 </div>
                 <div class="flex items-center">
                     <div class="flex-1 mr-2 mb-4">
                         <label for="gender" class="text-sm block mb-2">Genre</label>
-<!--                        <select name="gender" id="gender"-->
-<!--                                class="border border-grey p-2 text-sm block w-full rounded text-grey">-->
-<!--                            <option value="M">Masculin</option>-->
-<!--                            <option value="F">Féminin</option>-->
-<!--                            <option value="I">Inconnu</option>-->
-<!--                        </select>-->
                         <div class="flex item-center block p-2">
                             <input
                                 class="border border-grey ml-2 text-sm"
@@ -88,25 +92,6 @@
                                v-model="form.death_place">
                     </div>
                 </div>
-<!--                <div class="mb-4">-->
-<!--                    <label for="title" class="text-sm block mb-2">Titre</label>-->
-<!--                    <input type="text"-->
-<!--                           name="title"-->
-<!--                           class="border p-2 text-sm block w-full rounded"-->
-<!--                           :class="errors.title ? 'border-red' : 'border-grey-light'"-->
-<!--                           v-model="form.title">-->
-<!--                    <span class="text-sm italic text-red" v-if="errors.title" v-text="errors.title[0]"></span>-->
-<!--                </div>-->
-
-<!--                <div class="mb-4">-->
-<!--                    <label for="description" class="text-sm block mb-2">Description</label>-->
-<!--                    <textarea name="description"-->
-<!--                              class="border border-grey-light p-2 text-sm block w-full rounded"-->
-<!--                              rows="7"-->
-<!--                              v-model="form.description"-->
-<!--                    ></textarea>-->
-<!--                </div>-->
-<!--            </div>-->
 
             <div class="mb-4 w-1/4">
                 <label for="death_age" class="text-sm block mb-2">Âge du Décès</label>
@@ -118,7 +103,8 @@
 
             <footer class="flex justify-end">
                 <button class="button is-outlined mr-4" @click="$modal.hide('new-person')">Annuler</button>
-                <button class="button">Créer la Personne</button>
+                <button class="button"
+                        v-text="editable ? 'Valider les Modifications' : 'Créer la Personne'"></button>
             </footer>
         </form>
     </modal>
@@ -126,32 +112,36 @@
 
 <script>
     export default {
-        props: ['project'],
+        props: ['person'],
 
         data() {
             return {
+                editable: this.person,
                 form: {
-                    name: '',
-                    firstname: '',
-                    gender: '',
-                    birthdate: '',
-                    birthplace: '',
-                    profession: '',
-                    death_date: '',
-                    death_place: '',
-                    death_age: ''
-                }
+                    name: this.person ? this.person.name : '',
+                    firstname: this.person ? this.person.firstname : '',
+                    gender: this.person ? this.person.gender : '',
+                    birthdate: this.person ? this.person.birthdate : '',
+                    birthplace: this.person ? this.person.birthplace : '',
+                    profession: this.person ? this.person.profession : '',
+                    death_date: this.person ? this.person.death_date : '',
+                    death_place: this.person ? this.person.death_place : '',
+                    death_age: this.person ? this.person.death_age : ''
+                },
+                errors: {}
             }
         },
 
         methods: {
             async submit() {
                 try {
-                    // if (this.editable) {
-                    //     await axios.patch('/projects/' + this.project.id, this.form);
-                    // } else {
-                        location = (await axios.post('/projects/' + this.project.id + '/persons', this.form)).data.message;
-                    // }
+                    if (this.editable) {
+                        axios.patch(location.pathname, this.form)
+                            .then(response => location = response.data.message)
+                            .catch((error) => this.errors = error.response.data.errors);
+                    } else {
+                        location = (await axios.post(location.pathname + '/persons', this.form)).data.message;
+                    }
                 } catch (error) {
                     this.errors = error.response.data.errors;
                 }
