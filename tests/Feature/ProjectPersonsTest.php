@@ -42,22 +42,36 @@ class ProjectPersonsTest extends TestCase
     {
         $this->signIn();
 
-        $project = auth()->user()->projects()->create(
-            factory('App\Project')->raw()
-        );
+        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
 
         $attributes = [
             'name' => 'Doe',
             'firstname' => 'John'
         ];
 
-        $response = $this->post($project->path() . '/persons', $attributes);
+        $response = $this->actingAs($project->owner)
+            ->post($project->path() . '/persons', $attributes);
         
         $person = Person::first();
 
-        $response->assertRedirect($person->path())
+        $response->assertRedirect($person->path());
+
+        $this->get($project->path())
             ->assertSee($attributes['name'])
             ->assertSee($attributes['firstname']);
+    }
+
+    /** @test */
+    public function only_the_owner_of_a_project_may_update_persons()
+    {
+        $this->signIn();
+
+        $person = factory('App\Person')->create();
+
+        $this->patch($person->path(), $attributes = ['name' => 'Changed'])
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('people', $attributes);
     }
 
     /** @test */
@@ -65,9 +79,10 @@ class ProjectPersonsTest extends TestCase
     {
         $this->signIn();
 
-        $person = factory('App\Person')->create();
+        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
+        $person = factory('App\Person')->create(['project_id' => $project->id]);
 
-        $this->patch($person->path(), $attributes = ['name' => 'Changed']);
+        $this->patch($person->path(), $attributes = ['name' => 'Changed', 'firstname' => 'Changed']);
 
         $this->assertDatabaseHas('people', $attributes);
     }
@@ -77,11 +92,35 @@ class ProjectPersonsTest extends TestCase
     {
         $this->signIn();
 
-        $person = factory('App\Person')->create();
+        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
+        $person = factory('App\Person')->create(['project_id' => $project->id]);
 
         $this->patch($person->path(), $attributes = ['notes' => 'Changed']);
 
         $this->assertDatabaseHas('people', $attributes);
+    }
+
+    /** @test */
+    function unauthorized_users_cannot_delete_persons()
+    {
+        $person = factory('App\Person')->create();
+
+        $this->delete($person->path())
+            ->assertRedirect('/login');
+    }
+
+    /** @test */
+    public function a_user_can_delete_a_person()
+    {
+        $this->signIn();
+
+        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
+        $person = factory('App\Person')->create(['project_id' => $project->id]);
+
+        $this->delete($person->path())
+            ->assertRedirect($person->project->path());
+
+        $this->assertDatabaseMissing('people', $person->only('id'));
     }
 
     /** @test */

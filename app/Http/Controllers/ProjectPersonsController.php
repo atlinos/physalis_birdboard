@@ -10,9 +10,7 @@ class ProjectPersonsController extends Controller
 {
     public function store(Project $project)
     {
-        if (auth()->user()->isNot($project->owner)) {
-            abort(403);
-        }
+        $this->authorize('manage', $project);
 
         request()->validate([
             'name' => 'required',
@@ -38,6 +36,8 @@ class ProjectPersonsController extends Controller
 
     public function update(Project $project, Person $person)
     {
+        $this->authorize('manage', $person);
+
         if (! request()->has('notes')) {
             request()->validate([
                 'name' => 'required',
@@ -55,5 +55,14 @@ class ProjectPersonsController extends Controller
         }
 
         return redirect($person->path());
+    }
+
+    public function destroy(Project $project, Person $person)
+    {
+        $this->authorize('manage', $person);
+
+        $person->delete();
+
+        return redirect($project->path());
     }
 }

@@ -13,6 +13,11 @@ class Person extends Model
         return '/projects/' . $this->project_id . '/persons/' . $this->id;
     }
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     public function completeName()
     {
         return $this->name . ' ' . $this->firstname;

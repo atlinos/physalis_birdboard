@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Person;
+use App\Project;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,6 +21,14 @@ class PersonTest extends TestCase
             '/projects/' . $person->project_id . '/persons/' . $person->id,
             $person->path()
         );
+    }
+    
+    /** @test */
+    public function it_belongs_to_a_project()
+    {
+        $person = factory('App\Person')->create();
+
+        $this->assertInstanceOf(Project::class, $person->project);
     }
 
     /** @test */
