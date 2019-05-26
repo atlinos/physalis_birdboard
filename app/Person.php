@@ -9,6 +9,8 @@ class Person extends Model
 {
     protected $guarded = [];
 
+    protected $touches = ['project'];
+
     public function path()
     {
         return '/projects/' . $this->project_id . '/persons/' . $this->id;
