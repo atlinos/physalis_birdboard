@@ -73,8 +73,8 @@
                                 <div class="text-grey text-sm w-full mb-2">
                                     <div class="mb-1">
                                     @if($person->birthdate || $person->birthplace)
-                                        Naissance :
-                                        {{ $person->birthdate ? ' le ' . $person->birthdate : '' }}
+                                        {{ $person->gender == 'M' ? 'Né' : ($person->gender == 'F' ? 'Née' : 'Né(e)') }}
+                                        {{ $person->birthdate ? ' le ' . Carbon\Carbon::parse($person->birthdate)->format('d/m/Y') : '' }}
                                         {{ $person->birthplace ? ' à ' . $person->birthplace : '' }}
                                     @else
                                         Date et lieu de naissance inconnus
@@ -83,9 +83,10 @@
 
                                     <div>
                                     @if($person->death_date || $person->death_place)
-                                        Décès :
-                                        {{ $person->death_date ? ' le ' . $person->death_date : '' }}
+                                        {{ $person->gender == 'M' ? 'Décédé' : ($person->gender == 'F' ? 'Décédée' : 'Décédé(e)') }}
+                                        {{ $person->death_date ? ' le ' . Carbon\Carbon::parse($person->death_date)->format('d/m/Y') : '' }}
                                         {{ $person->death_place ? ' à ' . $person->death_place : '' }}
+                                        {{ $person->death_age ? ' à l\'âge de ' . $person->death_age . ' ans' : '' }}
                                     @else
                                         Date et lieu de décès inconnus
                                     @endif
@@ -97,12 +98,12 @@
                                         Modifier
                                     </button>
 
-{{--                                    <form method="POST" action="{{ $person->path() }}" class="text-right">--}}
-{{--                                        @method('DELETE')--}}
-{{--                                        @csrf--}}
+                                    <form method="POST" action="{{ $person->path() }}" class="text-right">
+                                        @method('DELETE')
+                                        @csrf
 
                                         <button type="submit" class="text-sm">Supprimer</button>
-{{--                                    </form>--}}
+                                    </form>
                                 </div>
                             </div>
                         </div>

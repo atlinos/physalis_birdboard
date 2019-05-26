@@ -26,7 +26,7 @@
                                 class="button ml-3">Ajouter une Personne</button>
                     </div>
 
-                    @forelse($project->persons as $person)
+                    @forelse($project->lastPersons as $person)
                         <div class="card mb-3">
                             <a href="{{ $person->path() }}" class="font-normal no-underline text-black">
                                 {{ $person->completeName() }}
@@ -38,9 +38,9 @@
                 </div>
 
                 <div>
-                    <h2 class="text-grey font-normal text-lg mb-3">Notes</h2>
+                    <h2 class="text-grey font-normal text-lg mb-3">Notes Générales</h2>
 
-                    <div class="card w-full" style="min-height: 200px">Lorem ipsum.</div>
+                    <div class="card w-full" style="min-height: 200px">{{ $project->notes }}</div>
                 </div>
             </div>
 

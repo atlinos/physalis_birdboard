@@ -33,19 +33,24 @@
                 </div>
                 <div class="flex items-center">
                     <div class="flex-1 mr-2 mb-4">
-                        <label for="gender" class="text-sm block mb-2">Genre</label>
+                        <label class="text-sm block mb-2">Genre</label>
                         <div class="flex item-center block p-2">
                             <input
                                 class="border border-grey ml-2 text-sm"
-                                type="radio" name="gender" value="M" id="M">
+                                type="radio" name="gender" value="M" id="M"
+                                v-model="form.gender"
+                                :checked="checked">
                             <label for="M" class="text-xs text-grey font-normal ml-2">Masculin</label>
                             <input
                                 class="border border-grey ml-2 text-sm"
-                                type="radio" name="gender" value="F" id="F">
+                                type="radio" name="gender" value="F" id="F"
+                                v-model="form.gender"
+                                :checked="checked">
                             <label for="F" class="text-xs text-grey font-normal ml-2">Féminin</label>
                             <input
                                 class="border border-grey ml-2 text-sm"
-                                type="radio" name="gender" value="I" id="I">
+                                type="radio" name="gender" value=""
+                                :checked="(this.form.gender == '' || this.form.gender == undefined) ? 'checked' : ''">
                             <label for="I" class="text-xs text-grey font-normal ml-2">Inconnu</label>
                         </div>
                     </div>
@@ -111,6 +116,8 @@
 </template>
 
 <script>
+    import moment from 'moment';
+
     export default {
         props: ['person'],
 
@@ -132,6 +139,41 @@
             }
         },
 
+        computed: {
+            checked(value) {
+                let checked = '';
+
+                if (this.form.gender === value) {
+                    return checked = 'checked';
+                }
+
+                return checked;
+            }
+        },
+
+        watch: {
+            'form.name': function(val) {
+                this.form.name = this.toCapitalize(val);
+            },
+            'form.firstname': function(val) {
+                this.form.firstname = this.toCapitalize(val);
+            },
+            'form.birthplace': function(val) {
+                this.form.birthplace = this.toCapitalize(val);
+            },
+            'form.death_place': function(val) {
+                this.form.death_place = this.toCapitalize(val);
+            },
+            'form.death_date': function(val) {
+                let death_age = moment(val).diff(this.form.birthdate, 'years');
+                if (! isNaN(death_age) && death_age >= 0) {
+                    this.form.death_age = death_age;
+                } else {
+                    this.form.death_age = '';
+                }
+            }
+        },
+
         methods: {
             async submit() {
                 try {
@@ -145,6 +187,10 @@
                 } catch (error) {
                     this.errors = error.response.data.errors;
                 }
+            },
+
+            toCapitalize(val) {
+                return val.charAt(0).toUpperCase() + val.slice(1);
             }
         }
     }

@@ -23,6 +23,11 @@ class Project extends Model
         return $this->hasMany(Person::class);
     }
 
+    public function lastPersons()
+    {
+        return $this->persons()->latest()->limit(25);
+    }
+
     public function addPerson($attributes)
     {
         return $this->persons()->create($attributes);
