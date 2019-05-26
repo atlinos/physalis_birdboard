@@ -40,7 +40,19 @@
                 <div>
                     <h2 class="text-grey font-normal text-lg mb-3">Notes Générales</h2>
 
-                    <div class="card w-full" style="min-height: 200px">{{ $project->notes }}</div>
+                    <form action="{{ $project->path() }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+
+                        <textarea
+                                class="card w-full mb-4"
+                                name="notes"
+                                style="min-height: 200px"
+                                placeholder="Quelque chose à noter pour cette généalogie ?"
+                        >{{ $project->notes }}</textarea>
+
+                        <button type="submit" class="button">Valider</button>
+                    </form>
                 </div>
             </div>
 

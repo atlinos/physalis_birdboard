@@ -46,6 +46,12 @@ class ProjectPersonsController extends Controller
                 'name.required' => 'Le nom est obligatoire',
                 'firstname.required' => 'Le prénom est obligatoire',
             ]);
+        } else {
+            request()->validate([
+                'notes' => 'min:3'
+            ], [
+                'notes.min' => 'Les notes doivent au moins faire 3 caractères.'
+            ]);
         }
 
         $person->update(request()->all());

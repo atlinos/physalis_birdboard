@@ -30,7 +30,8 @@ class ProjectsController extends Controller
     {
         $attributes = request()->validate([
             'title' => 'required',
-            'description' => 'nullable'
+            'description' => 'nullable',
+            'notes' => 'min:3'
         ], [
             'title.required' => 'Le titre de la généalogie est obligatoire'
         ]);
@@ -48,12 +49,20 @@ class ProjectsController extends Controller
     {
         $this->authorize('manage', $project);
 
-        $attributes = request()->validate([
-            'title' => 'required',
-            'description' => 'nullable'
-        ], [
-            'title.required' => 'Le titre de la généalogie est obligatoire'
-        ]);
+        if (! request()->has('notes')) {
+            $attributes = request()->validate([
+                'title' => 'required',
+                'description' => 'nullable'
+            ], [
+                'title.required' => 'Le titre de la généalogie est obligatoire'
+            ]);
+        } else {
+            $attributes = request()->validate([
+                'notes' => 'min:3'
+            ], [
+                'notes.min' => 'Les notes doivent au moins faire 3 caractères.'
+            ]);
+        }
 
         $project->update($attributes);
 
