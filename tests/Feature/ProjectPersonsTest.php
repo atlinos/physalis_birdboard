@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Person;
+use Facades\Tests\Setup\ProjectFactory;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -40,9 +41,7 @@ class ProjectPersonsTest extends TestCase
     /** @test */
     public function a_project_can_have_persons()
     {
-        $this->signIn();
-
-        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
+        $project = ProjectFactory::create();
 
         $attributes = [
             'name' => 'Doe',
@@ -62,13 +61,13 @@ class ProjectPersonsTest extends TestCase
     }
 
     /** @test */
-    public function only_the_owner_of_a_project_may_update_persons()
+    public function only_the_owner_of_a_project_may_update_a_person()
     {
         $this->signIn();
 
-        $person = factory('App\Person')->create();
+        $project = ProjectFactory::withPersons(1)->create();
 
-        $this->patch($person->path(), $attributes = ['name' => 'Changed'])
+        $this->patch($project->persons[0]->path(), $attributes = ['name' => 'Changed'])
             ->assertStatus(403);
 
         $this->assertDatabaseMissing('people', $attributes);
@@ -77,27 +76,29 @@ class ProjectPersonsTest extends TestCase
     /** @test */
     function a_person_can_be_updated()
     {
-        $this->signIn();
+        $project = ProjectFactory::withPersons(1)->create();
 
-        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
-        $person = factory('App\Person')->create(['project_id' => $project->id]);
+        $this->actingAs($project->owner)
+            ->patch($project->persons[0]->path(), [
+                'name' => 'Changed',
+                'firstname' => 'Changed'
+            ]);
 
-        $this->patch($person->path(), $attributes = ['name' => 'Changed', 'firstname' => 'Changed']);
-
-        $this->assertDatabaseHas('people', $attributes);
+        $this->assertDatabaseHas('people', [
+            'name' => 'Changed',
+            'firstname' => 'Changed'
+        ]);
     }
 
     /** @test */
     function a_user_can_update_a_persons_notes()
     {
-        $this->signIn();
+        $project = ProjectFactory::withPersons(1)->create();
 
-        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
-        $person = factory('App\Person')->create(['project_id' => $project->id]);
+        $this->actingAs($project->owner)
+            ->patch($project->persons[0]->path(), ['notes' => 'Changed']);
 
-        $this->patch($person->path(), $attributes = ['notes' => 'Changed']);
-
-        $this->assertDatabaseHas('people', $attributes);
+        $this->assertDatabaseHas('people', ['notes' => 'Changed']);
     }
 
     /** @test */
@@ -112,44 +113,36 @@ class ProjectPersonsTest extends TestCase
     /** @test */
     public function a_user_can_delete_a_person()
     {
-        $this->signIn();
+        $project = ProjectFactory::withPersons(1)->create();
 
-        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
-        $person = factory('App\Person')->create(['project_id' => $project->id]);
+        $this->actingAs($project->owner)
+            ->delete($project->persons[0]->path())
+            ->assertRedirect($project->path());
 
-        $this->delete($person->path())
-            ->assertRedirect($person->project->path());
-
-        $this->assertDatabaseMissing('people', $person->only('id'));
+        $this->assertDatabaseMissing('people', $project->persons[0]->only('id'));
     }
 
     /** @test */
     public function a_person_requires_a_name()
     {
-        $this->signIn();
-
-        $project = auth()->user()->projects()->create(
-            factory('App\Project')->raw()
-        );
+        $project = ProjectFactory::create();
 
         $attributes = factory('App\Person')->raw(['name' => '']);
 
-        $this->post($project->path() . '/persons', $attributes)
+        $this->actingAs($project->owner)
+            ->post($project->path() . '/persons', $attributes)
             ->assertSessionHasErrors('name');
     }
 
     /** @test */
     public function a_person_requires_a_firstname()
     {
-        $this->signIn();
-
-        $project = auth()->user()->projects()->create(
-            factory('App\Project')->raw()
-        );
+        $project = ProjectFactory::withPersons(1)->create();
 
         $attributes = factory('App\Person')->raw(['firstname' => '']);
 
-        $this->post($project->path() . '/persons', $attributes)
+        $this->actingAs($project->owner)
+            ->post($project->path() . '/persons', $attributes)
             ->assertSessionHasErrors('firstname');
     }
 }
