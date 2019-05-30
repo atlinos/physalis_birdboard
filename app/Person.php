@@ -25,4 +25,17 @@ class Person extends Model
     {
         return $this->name . ' ' . $this->firstname;
     }
+
+    public function recordActivity($description)
+    {
+        $this->activity()->create([
+            'project_id' => $this->project_id,
+            'description' => $description
+        ]);
+    }
+
+    public function activity()
+    {
+        return $this->morphMany(Activity::class, 'subject')->latest();
+    }
 }
