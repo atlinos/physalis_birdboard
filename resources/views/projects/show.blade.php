@@ -27,13 +27,13 @@
                     </div>
 
                     @forelse($project->lastPersons as $person)
-                        <div class="card mb-3">
+                        <div class="card-sm mb-3">
                             <a href="{{ $person->path() }}" class="font-normal no-underline text-black">
                                 {{ $person->completeName() }}
                             </a>
                         </div>
                     @empty
-                        <div class="card mb-3">Ajouter une nouvelle personne</div>
+                        <div class="card-sm mb-3">Ajouter une nouvelle personne</div>
                     @endforelse
                 </div>
 
