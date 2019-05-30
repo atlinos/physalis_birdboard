@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
+    use RecordsActivity;
+
     protected $guarded = [];
 
     protected $touches = ['project'];
@@ -24,18 +26,5 @@ class Person extends Model
     public function completeName()
     {
         return $this->name . ' ' . $this->firstname;
-    }
-
-    public function recordActivity($description)
-    {
-        $this->activity()->create([
-            'project_id' => $this->project_id,
-            'description' => $description
-        ]);
-    }
-
-    public function activity()
-    {
-        return $this->morphMany(Activity::class, 'subject')->latest();
     }
 }
