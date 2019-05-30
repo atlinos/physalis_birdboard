@@ -1,1 +1,0 @@
-Vous avez crée {{ $activity->subject->firstname }} {{ $activity->subject->name }}

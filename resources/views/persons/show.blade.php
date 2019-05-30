@@ -138,6 +138,8 @@
                             class="text-grey-dark text-sm p-2 font-normal w-full border border-grey-light rounded">{{ $person->notes }}</textarea>
                     </form>
                 </div>
+
+                @include('activities.card', ['model' => $person])
             </div>
         </div>
     </main>

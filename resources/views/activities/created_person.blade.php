@@ -1,0 +1,1 @@
+{{ $activity->user->name }} a crée {{ $activity->subject->firstname }} {{ $activity->subject->name }}

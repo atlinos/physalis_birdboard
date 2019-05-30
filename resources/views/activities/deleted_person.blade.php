@@ -1,0 +1,1 @@
+{{ $activity->user->name }} a supprimé une personne

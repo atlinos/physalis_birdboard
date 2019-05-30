@@ -67,6 +67,7 @@ class TriggerActivityTest extends TestCase
     /** @test */
     public function updating_a_person()
     {
+        $this->withoutExceptionHandling();
         $project = ProjectFactory::withPersons(1)->create();
 
         $this->actingAs($project->owner)

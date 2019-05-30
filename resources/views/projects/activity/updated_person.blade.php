@@ -1,1 +1,0 @@
-Vous avez mis à jour {{ $activity->subject->firstname }} {{ $activity->subject->name }}
