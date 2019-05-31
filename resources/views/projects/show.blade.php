@@ -57,13 +57,12 @@
             </div>
 
             <div class="lg:w-1/4 px-3">
-                @include('projects.card')
+                @include('projects.card', ['showDeleteProject' => false])
                 @include('activities.card', ['model' => $project])
             </div>
         </div>
     </main>
 
     <new-project-modal :project="{{ $project }}"></new-project-modal>
-
     <new-person-modal></new-person-modal>
 @endsection

@@ -7,12 +7,14 @@
 
     @can('manage', $project)
         <footer>
-            <form method="POST" action="{{ $project->path() }}" class="text-right">
-                @method('DELETE')
-                @csrf
-
-                <button type="submit" class="text-xs">Supprimer</button>
-            </form>
+            @if($showDeleteProject)
+                <div class="text-right">
+                    <button
+                            class="text-xs text-right"
+                            @click="$modal.show('delete-project', {project: {{ $project }}})"
+                    >Supprimer</button>
+                </div>
+            @endif
         </footer>
     @endcan
 </div>

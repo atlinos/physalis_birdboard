@@ -69,6 +69,16 @@ class ProjectPersonsController extends Controller
 
         $person->delete();
 
+        foreach ($person->activity as $activity) {
+            if ($activity->description !== 'deleted_person') {
+                $activity->delete();
+            }
+        }
+
+        if (request()->wantsJson()) {
+            return ['message' => $project->path()];
+        }
+
         return redirect($project->path());
     }
 }

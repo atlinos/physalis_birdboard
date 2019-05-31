@@ -25,7 +25,7 @@
             </div>
 
             <footer class="flex justify-end">
-                <button class="button is-outlined mr-4" @click="$modal.hide('new-project')">Annuler</button>
+                <button class="button is-outlined mr-4" @click.prevent="$modal.hide('new-project')">Annuler</button>
                 <button
                     class="button"
                     v-text="editable ? 'Éditer la Généalogie' : 'Créer la Généalogie'"></button>

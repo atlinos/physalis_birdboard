@@ -7,4 +7,15 @@
   }
 
   box-shadow: 0 2px 7px 0 #b0eaff;
+
+  &.danger {
+    @apply .bg-red .no-underline .rounded-lg .text-sm .py-2 .px-5;
+    color: white;
+    box-shadow: 0 2px 7px 0 #f9d4d4;
+  }
+
+  &.is-outlined-danger {
+    @apply .bg-white .border .border-red .text-red;
+    box-shadow: 0 2px 7px 0 #f9d4d4;
+  }
 }

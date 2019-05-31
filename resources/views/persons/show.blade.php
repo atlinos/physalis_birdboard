@@ -98,12 +98,10 @@
                                         Modifier
                                     </button>
 
-                                    <form method="POST" action="{{ $person->path() }}" class="text-right">
-                                        @method('DELETE')
-                                        @csrf
-
-                                        <button type="submit" class="text-sm">Supprimer</button>
-                                    </form>
+                                    <button
+                                        class="text-sm"
+                                        @click="$modal.show('delete-person', {person: {{ $person }}})"
+                                    >Supprimer</button>
                                 </div>
                             </div>
                         </div>
@@ -145,4 +143,5 @@
     </main>
 
     <new-person-modal :person="{{ $person }}"></new-person-modal>
+    <delete-person-modal></delete-person-modal>
 @endsection

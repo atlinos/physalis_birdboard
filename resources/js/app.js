@@ -26,6 +26,8 @@ Vue.use(VModal);
 
 Vue.component('new-project-modal', require('./components/NewProjectModal.vue').default);
 Vue.component('new-person-modal', require('./components/NewPersonModal.vue').default);
+Vue.component('delete-project-modal', require('./components/DeleteProjectModal.vue').default);
+Vue.component('delete-person-modal', require('./components/DeletePersonModal.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

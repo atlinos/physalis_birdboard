@@ -107,7 +107,7 @@
             </div>
 
             <footer class="flex justify-end">
-                <button class="button is-outlined mr-4" @click="$modal.hide('new-person')">Annuler</button>
+                <button class="button is-outlined mr-4" @click.prevent="$modal.hide('new-person')">Annuler</button>
                 <button class="button"
                         v-text="editable ? 'Valider les Modifications' : 'Créer la Personne'"></button>
             </footer>

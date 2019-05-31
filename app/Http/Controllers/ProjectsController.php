@@ -79,6 +79,10 @@ class ProjectsController extends Controller
 
         $project->delete();
 
+        if (request()->wantsJson()) {
+            return ['message' => '/projects'];
+        }
+
         return redirect('/projects');
     }
 }
