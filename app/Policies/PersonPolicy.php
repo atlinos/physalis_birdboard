@@ -10,8 +10,8 @@ class PersonPolicy
 {
     use HandlesAuthorization;
 
-    public function manage(User $user, Person $person)
+    public function update(User $user, Person $person)
     {
-        return $user->is($person->project->owner);
+        return $user->is($person->project->owner) || $person->project->members->contains($user);
     }
 }

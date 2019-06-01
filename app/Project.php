@@ -22,19 +22,29 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function persons()
+    public function people()
     {
         return $this->hasMany(Person::class);
     }
 
-    public function lastPersons()
+    public function invite(User $user)
     {
-        return $this->persons()->latest()->limit(25);
+        return $this->members()->attach($user);
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'project_members')->withTimestamps();
+    }
+
+    public function lastPeople()
+    {
+        return $this->people()->latest()->limit(25);
     }
 
     public function addPerson($attributes)
     {
-        return $this->persons()->create($attributes);
+        return $this->people()->create($attributes);
     }
 
     public function activity()

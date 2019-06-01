@@ -9,7 +9,7 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        $projects = auth()->user()->projects;
+        $projects = auth()->user()->accessibleProjects();
 
         return view('projects.index', compact('projects'));
     }
@@ -21,7 +21,7 @@ class ProjectsController extends Controller
 
     public function show(Project $project)
     {
-        $this->authorize('manage', $project);
+        $this->authorize('update', $project);
 
         return view('projects.show', compact('project'));
     }
@@ -47,7 +47,7 @@ class ProjectsController extends Controller
 
     public function update(Project $project)
     {
-        $this->authorize('manage', $project);
+        $this->authorize('update', $project);
 
         if (! request()->has('notes')) {
             $attributes = request()->validate([

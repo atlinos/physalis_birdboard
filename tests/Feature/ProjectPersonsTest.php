@@ -67,7 +67,7 @@ class ProjectPersonsTest extends TestCase
 
         $project = ProjectFactory::withPersons(1)->create();
 
-        $this->patch($project->persons[0]->path(), $attributes = ['name' => 'Changed'])
+        $this->patch($project->people[0]->path(), $attributes = ['name' => 'Changed'])
             ->assertStatus(403);
 
         $this->assertDatabaseMissing('people', $attributes);
@@ -79,7 +79,7 @@ class ProjectPersonsTest extends TestCase
         $project = ProjectFactory::withPersons(1)->create();
 
         $this->actingAs($project->owner)
-            ->patch($project->persons[0]->path(), [
+            ->patch($project->people[0]->path(), [
                 'name' => 'Changed',
                 'firstname' => 'Changed'
             ]);
@@ -91,12 +91,32 @@ class ProjectPersonsTest extends TestCase
     }
 
     /** @test */
+    public function a_person_can_only_be_viewed_by_projects_owner_and_invited_users()
+    {
+        $project = ProjectFactory::ownedBy($john = factory('App\User')->create())
+            ->withPersons(1)
+            ->create();
+
+        $sally = factory('App\User')->create();
+
+        $this->actingAs($sally)
+            ->get($project->people[0]->path())
+            ->assertStatus(403);
+
+        $project->invite($sally);
+
+        $this->actingAs($sally)
+            ->get($project->people[0]->path())
+            ->assertStatus(200);
+    }
+
+    /** @test */
     function a_user_can_update_a_persons_notes()
     {
         $project = ProjectFactory::withPersons(1)->create();
 
         $this->actingAs($project->owner)
-            ->patch($project->persons[0]->path(), ['notes' => 'Changed']);
+            ->patch($project->people[0]->path(), ['notes' => 'Changed']);
 
         $this->assertDatabaseHas('people', ['notes' => 'Changed']);
     }
@@ -116,10 +136,10 @@ class ProjectPersonsTest extends TestCase
         $project = ProjectFactory::withPersons(1)->create();
 
         $this->actingAs($project->owner)
-            ->delete($project->persons[0]->path())
+            ->delete($project->people[0]->path())
             ->assertRedirect($project->path());
 
-        $this->assertDatabaseMissing('people', $project->persons[0]->only('id'));
+        $this->assertDatabaseMissing('people', $project->people[0]->only('id'));
     }
 
     /** @test */

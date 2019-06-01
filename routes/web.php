@@ -18,10 +18,12 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('projects', 'ProjectsController');
 
-    Route::post('/projects/{project}/persons', 'ProjectPersonsController@store');
-    Route::get('/projects/{project}/persons/{person}', 'ProjectPersonsController@show');
-    Route::patch('/projects/{project}/persons/{person}', 'ProjectPersonsController@update');
-    Route::delete('/projects/{project}/persons/{person}', 'ProjectPersonsController@destroy');
+    Route::post('/projects/{project}/persons', 'ProjectPeopleController@store');
+    Route::get('/projects/{project}/persons/{person}', 'ProjectPeopleController@show');
+    Route::patch('/projects/{project}/persons/{person}', 'ProjectPeopleController@update');
+    Route::delete('/projects/{project}/persons/{person}', 'ProjectPeopleController@destroy');
+
+    Route::post('/projects/{project}/invitations', 'ProjectInvitationsController@store');
 
     Route::get('/home', 'HomeController@index')->name('home');
 });

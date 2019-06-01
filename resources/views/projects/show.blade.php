@@ -9,9 +9,23 @@
                 </a> / {{ $project->title }}
             </p>
 
-            <a href="/projects/create"
-               @click.prevent="$modal.show('new-project')"
-               class="button">Éditer la Généalogie</a>
+            <div class="flex items-center">
+                @foreach($project->members as $member)
+                    <img
+                        src="https://gravatar.com/avatar/{{ $member->email }}?s=60"
+                        alt="avatar de {{ $member->name }}"
+                        class="rounded-full w-8 mr-2">
+                @endforeach
+
+                    <img
+                        src="https://gravatar.com/avatar/{{ $project->owner->email }}?s=60"
+                        alt="avatar de {{ $project->owner->name }}"
+                        class="rounded-full w-8 mr-2">
+
+                <a href="/projects/create"
+                   @click.prevent="$modal.show('new-project')"
+                   class="button ml-4">Éditer la Généalogie</a>
+            </div>
         </div>
     </header>
 
@@ -26,7 +40,7 @@
                                 class="button ml-3">Ajouter une Personne</button>
                     </div>
 
-                    @forelse($project->lastPersons as $person)
+                    @forelse($project->lastPeople as $person)
                         <div class="card-sm mb-3">
                             <a href="{{ $person->path() }}" class="font-normal no-underline text-black">
                                 {{ $person->completeName() }}
@@ -59,6 +73,10 @@
             <div class="lg:w-1/4 px-3">
                 @include('projects.card', ['showDeleteProject' => false])
                 @include('activities.card', ['model' => $project])
+
+                @can('manage', $project)
+                    @include('projects.invite')
+                @endcan
             </div>
         </div>
     </main>

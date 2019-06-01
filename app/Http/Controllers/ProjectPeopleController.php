@@ -6,11 +6,11 @@ use App\Person;
 use App\Project;
 use Illuminate\Http\Request;
 
-class ProjectPersonsController extends Controller
+class ProjectPeopleController extends Controller
 {
     public function store(Project $project)
     {
-        $this->authorize('manage', $project);
+        $this->authorize('update', $project);
 
         request()->validate([
             'name' => 'required',
@@ -31,12 +31,14 @@ class ProjectPersonsController extends Controller
 
     public function show(Project $project, Person $person)
     {
+        $this->authorize('update', $person);
+
         return view('persons.show', compact('project', 'person'));
     }
 
     public function update(Project $project, Person $person)
     {
-        $this->authorize('manage', $person);
+        $this->authorize('update', $person);
 
         if (! request()->has('notes')) {
             request()->validate([
@@ -65,7 +67,7 @@ class ProjectPersonsController extends Controller
 
     public function destroy(Project $project, Person $person)
     {
-        $this->authorize('manage', $person);
+        $this->authorize('update', $person);
 
         $person->delete();
 

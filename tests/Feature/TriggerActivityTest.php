@@ -71,7 +71,7 @@ class TriggerActivityTest extends TestCase
         $project = ProjectFactory::withPersons(1)->create();
 
         $this->actingAs($project->owner)
-            ->patch($project->persons[0]->path(), [
+            ->patch($project->people[0]->path(), [
                 'name' => 'changed',
                 'firstname' => 'changed'
             ]);
@@ -89,7 +89,7 @@ class TriggerActivityTest extends TestCase
     {
         $project = ProjectFactory::withPersons(1)->create();
 
-        $project->persons[0]->delete();
+        $project->people[0]->delete();
 
         $this->assertCount(3, $project->activity);
 
