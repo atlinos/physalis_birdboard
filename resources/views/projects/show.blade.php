@@ -11,16 +11,10 @@
 
             <div class="flex items-center">
                 @foreach($project->members as $member)
-                    <img
-                        src="https://gravatar.com/avatar/{{ $member->email }}?s=60"
-                        alt="avatar de {{ $member->name }}"
-                        class="rounded-full w-8 mr-2">
+                    <span class="text-sm rounded-full py-2 px-4 mr-2 bg-white text-grey-dark">{{ $member->name }}</span>
                 @endforeach
 
-                    <img
-                        src="https://gravatar.com/avatar/{{ $project->owner->email }}?s=60"
-                        alt="avatar de {{ $project->owner->name }}"
-                        class="rounded-full w-8 mr-2">
+                <span class="text-sm rounded-full py-2 px-4 mr-2 bg-white text-grey-dark">{{ $project->owner->name }}</span>
 
                 <a href="/projects/create"
                    @click.prevent="$modal.show('new-project')"

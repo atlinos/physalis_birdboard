@@ -39,7 +39,7 @@ class Project extends Model
 
     public function lastPeople()
     {
-        return $this->people()->latest()->limit(25);
+        return $this->people()->latest()->limit(10);
     }
 
     public function addPerson($attributes)
@@ -49,6 +49,6 @@ class Project extends Model
 
     public function activity()
     {
-        return $this->hasMany(Activity::class)->latest();
+        return $this->hasMany(Activity::class)->latest()->limit(15);
     }
 }
