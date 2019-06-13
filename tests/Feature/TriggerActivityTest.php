@@ -68,7 +68,7 @@ class TriggerActivityTest extends TestCase
     public function updating_a_person()
     {
         $this->withoutExceptionHandling();
-        $project = ProjectFactory::withPersons(1)->create();
+        $project = ProjectFactory::withPeople(1)->create();
 
         $this->actingAs($project->owner)
             ->patch($project->people[0]->path(), [
@@ -87,7 +87,7 @@ class TriggerActivityTest extends TestCase
     /** @test */
     public function deleting_a_person()
     {
-        $project = ProjectFactory::withPersons(1)->create();
+        $project = ProjectFactory::withPeople(1)->create();
 
         $project->people[0]->delete();
 

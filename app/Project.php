@@ -37,6 +37,16 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_members')->withTimestamps();
     }
 
+    public function search($request)
+    {
+        return $this->people()
+            ->where(function ($query) use ($request) {
+                $query->where('name', 'LIKE', $request . '%')
+                    ->orWhere('firstname', 'LIKE', $request . '%');
+            })
+            ->get();
+    }
+
     public function lastPeople()
     {
         return $this->people()->latest()->limit(10);
@@ -49,6 +59,6 @@ class Project extends Model
 
     public function activity()
     {
-        return $this->hasMany(Activity::class)->latest()->limit(15);
+        return $this->hasMany(Activity::class)->latest()->limit(10);
     }
 }

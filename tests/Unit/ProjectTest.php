@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Project;
 use App\User;
+use Facades\Tests\Setup\ProjectFactory;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -46,5 +47,25 @@ class ProjectTest extends TestCase
         $project->invite($user = factory('App\User')->create());
 
         $this->assertTrue($project->members->contains($user));
+    }
+
+    /** @test */
+    public function it_can_search_for_its_people()
+    {
+        $project = factory(Project::class)->create();
+
+        $personInProject1 = $project->addPerson(['name' => 'Doe', 'firstname' => 'John']);
+        $personInProject2 = $project->addPerson(['name' => 'Doe Me', 'firstname' => 'Henry']);
+
+        $personNotInProject = factory('App\Person')->create(['name' => 'Doe']);
+
+        $results = $project->search('doe');
+
+        $this->assertCount(2, $results);
+
+        $this->assertEquals($results[0]->id, $personInProject1->id);
+        $this->assertEquals($results[1]->id, $personInProject2->id);
+
+        $this->assertNotEquals($results[0]->id, $personNotInProject->id);
     }
 }

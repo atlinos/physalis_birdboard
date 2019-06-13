@@ -1,5 +1,10 @@
 <template>
-    <modal name="new-person" classes="p-10 bg-white rounded-lg" height="auto">
+    <modal
+        name="new-person"
+        classes="p-10 bg-white rounded-lg"
+        @before-open="beforeOpen"
+        height="auto">
+
         <h1 class="font-normal mb-10 text-center text-2xl" v-if="editable">
             Modifier {{ form.firstname }} {{ form.name }}
         </h1>
@@ -191,6 +196,17 @@
 
             toCapitalize(val) {
                 return val.charAt(0).toUpperCase() + val.slice(1);
+            },
+
+            beforeOpen(event) {
+                if (event.params.input !== '') {
+                    let input = event.params.input.split(' ');
+
+                    this.form.name = input[0];
+                    if (input.length > 1) {
+                        this.form.firstname = input[1];
+                    }
+                }
             }
         }
     }

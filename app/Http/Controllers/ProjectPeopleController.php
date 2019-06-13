@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ProjectPeopleController extends Controller
 {
+    public function index(Project $project)
+    {
+        return $project->lastPeople;
+    }
+
     public function store(Project $project)
     {
         $this->authorize('update', $project);

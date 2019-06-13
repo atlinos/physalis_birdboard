@@ -12,7 +12,7 @@ class ProjectFactory
 
     protected $user;
 
-    public function withPersons($count)
+    public function withPeople($count)
     {
         $this->personsCount = $count;
 

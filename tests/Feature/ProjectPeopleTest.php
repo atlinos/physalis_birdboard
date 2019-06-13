@@ -5,10 +5,9 @@ namespace Tests\Feature;
 use App\Person;
 use Facades\Tests\Setup\ProjectFactory;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ProjectPersonsTest extends TestCase
+class ProjectPeopleTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -65,7 +64,7 @@ class ProjectPersonsTest extends TestCase
     {
         $this->signIn();
 
-        $project = ProjectFactory::withPersons(1)->create();
+        $project = ProjectFactory::withPeople(1)->create();
 
         $this->patch($project->people[0]->path(), $attributes = ['name' => 'Changed'])
             ->assertStatus(403);
@@ -76,7 +75,7 @@ class ProjectPersonsTest extends TestCase
     /** @test */
     function a_person_can_be_updated()
     {
-        $project = ProjectFactory::withPersons(1)->create();
+        $project = ProjectFactory::withPeople(1)->create();
 
         $this->actingAs($project->owner)
             ->patch($project->people[0]->path(), [
@@ -94,7 +93,7 @@ class ProjectPersonsTest extends TestCase
     public function a_person_can_only_be_viewed_by_projects_owner_and_invited_users()
     {
         $project = ProjectFactory::ownedBy($john = factory('App\User')->create())
-            ->withPersons(1)
+            ->withPeople(1)
             ->create();
 
         $sally = factory('App\User')->create();
@@ -113,7 +112,7 @@ class ProjectPersonsTest extends TestCase
     /** @test */
     function a_user_can_update_a_persons_notes()
     {
-        $project = ProjectFactory::withPersons(1)->create();
+        $project = ProjectFactory::withPeople(1)->create();
 
         $this->actingAs($project->owner)
             ->patch($project->people[0]->path(), ['notes' => 'Changed']);
@@ -133,7 +132,7 @@ class ProjectPersonsTest extends TestCase
     /** @test */
     public function a_user_can_delete_a_person()
     {
-        $project = ProjectFactory::withPersons(1)->create();
+        $project = ProjectFactory::withPeople(1)->create();
 
         $this->actingAs($project->owner)
             ->delete($project->people[0]->path())
@@ -157,7 +156,7 @@ class ProjectPersonsTest extends TestCase
     /** @test */
     public function a_person_requires_a_firstname()
     {
-        $project = ProjectFactory::withPersons(1)->create();
+        $project = ProjectFactory::withPeople(1)->create();
 
         $attributes = factory('App\Person')->raw(['firstname' => '']);
 
