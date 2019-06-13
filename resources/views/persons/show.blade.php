@@ -82,11 +82,11 @@
                                     </div>
 
                                     <div>
-                                    @if($person->death_date || $person->death_place)
+                                    @if($person->death_date || $person->death_place || $person->death_age)
                                         {{ $person->gender == 'M' ? 'Décédé' : ($person->gender == 'F' ? 'Décédée' : 'Décédé(e)') }}
                                         {{ $person->death_date ? ' le ' . Carbon\Carbon::parse($person->death_date)->format('d/m/Y') : '' }}
                                         {{ $person->death_place ? ' à ' . $person->death_place : '' }}
-                                        {{ $person->death_age ? ' à l\'âge de ' . $person->death_age . ' ans' : '' }}
+                                        {{ $person->death_age ? ' à l\'âge de ' . $person->death_age . ' ' . str_plural('an', $person->death_age) : '' }}
                                     @else
                                         Date et lieu de décès inconnus
                                     @endif

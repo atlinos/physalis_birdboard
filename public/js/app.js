@@ -2458,6 +2458,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2467,11 +2469,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['person'],
   methods: {
     path: function path(val) {
       return '/projects/' + val.project_id + '/persons/' + val.id;
+    },
+    datify: function datify(val) {
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(val)).format('DD/MM/YYYY');
     }
   }
 });
@@ -57164,7 +57192,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card-sm mb-3" }, [
+  return _c("div", { staticClass: "card-sm flex items-center mb-3" }, [
     _c(
       "a",
       {
@@ -57178,7 +57206,89 @@ var render = function() {
             "\n    "
         )
       ]
-    )
+    ),
+    _vm._v(" "),
+    _vm.person.birthdate || _vm.person.birthplace
+      ? _c("div", { staticClass: "text-sm text-grey ml-3" }, [
+          _c("span", {
+            domProps: {
+              textContent: _vm._s(
+                _vm.person.gender == "M"
+                  ? "Né"
+                  : _vm.person.gender == "F"
+                  ? "Née"
+                  : "Né(e)"
+              )
+            }
+          }),
+          _vm._v(" "),
+          _vm.person.birthdate
+            ? _c("span", {
+                domProps: {
+                  textContent: _vm._s(" le " + _vm.datify(_vm.person.birthdate))
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.person.birthplace
+            ? _c("span", {
+                domProps: { textContent: _vm._s(" à " + _vm.person.birthplace) }
+              })
+            : _vm._e()
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    (_vm.person.birthdate || _vm.person.birthplace) &&
+    (_vm.person.death_date || _vm.person.death_place)
+      ? _c("span", { staticClass: "text-sm text-grey ml-3" }, [_vm._v("/")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.person.death_date || _vm.person.death_place || _vm.person.death_age
+      ? _c("div", { staticClass: "text-sm text-grey ml-3" }, [
+          _c("span", {
+            domProps: {
+              textContent: _vm._s(
+                _vm.person.gender == "M"
+                  ? "Décédé"
+                  : _vm.person.gender == "F"
+                  ? "Décédée"
+                  : "Décédé(e)"
+              )
+            }
+          }),
+          _vm._v(" "),
+          _vm.person.death_date
+            ? _c("span", {
+                domProps: {
+                  textContent: _vm._s(
+                    " le " + _vm.datify(_vm.person.death_date)
+                  )
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.person.death_place
+            ? _c("span", {
+                domProps: {
+                  textContent: _vm._s(" à " + _vm.person.death_place)
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.person.death_age
+            ? _c("span", {
+                domProps: {
+                  textContent: _vm._s(
+                    " à l'âge de " +
+                      _vm.person.death_age +
+                      " " +
+                      (_vm.person.death_age != 1 ? "ans" : "an")
+                  )
+                }
+              })
+            : _vm._e()
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
