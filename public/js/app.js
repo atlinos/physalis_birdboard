@@ -2401,9 +2401,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2411,7 +2408,7 @@ __webpack_require__.r(__webpack_exports__);
       results: '',
       lastPeople: [],
       step: 1,
-      perPage: 15
+      perPage: 10
     };
   },
   created: function created() {
@@ -56972,11 +56969,10 @@ var render = function() {
       ? _c("div", [
           _c(
             "div",
-            { staticClass: "flex flex-wrap items-center justify-between" },
+            { staticClass: "flex flex-wrap items-center justify-between mb-3" },
             [
               _c("h2", {
-                staticClass: "text-grey font-normal text-lg mb-3",
-                class: _vm.results.length > 0 ? "w-full" : "",
+                staticClass: "text-grey font-normal text-lg",
                 domProps: {
                   textContent: _vm._s(
                     "Résultats pour : " +
@@ -56988,135 +56984,128 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _vm.results.length > 0
-                ? _c(
-                    "div",
-                    { staticClass: "w-full" },
-                    [
-                      _vm._l(_vm.results, function(result, index) {
-                        return _c(
-                          "div",
-                          { staticClass: "mb-3" },
-                          [
-                            _c("person-card", {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.visible(index, _vm.step),
-                                  expression: "visible(index, step)"
-                                }
-                              ],
-                              attrs: { person: result }
-                            })
+              _c(
+                "button",
+                {
+                  staticClass: "button ml-auto",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.$modal.show("new-person", { input: _vm.q })
+                    }
+                  }
+                },
+                [_vm._v("Créer la Personne")]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _vm.results.length > 0
+            ? _c(
+                "div",
+                { staticClass: "w-full flex-1" },
+                [
+                  _vm._l(_vm.results, function(result, index) {
+                    return _c(
+                      "div",
+                      { staticClass: "mb-3" },
+                      [
+                        _c("person-card", {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.visible(index, _vm.step),
+                              expression: "visible(index, step)"
+                            }
                           ],
-                          1
-                        )
+                          attrs: { person: result }
+                        })
+                      ],
+                      1
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.results.length > _vm.perPage,
+                          expression: "results.length > perPage"
+                        }
+                      ],
+                      staticClass:
+                        "flex items-center space-between bg-white rounded-lg p-1"
+                    },
+                    [
+                      _c("span", {
+                        staticClass:
+                          "text-center text-grey-darker font-normal cursor-pointer w-full",
+                        domProps: {
+                          textContent: _vm._s(
+                            _vm.step * _vm.perPage < _vm.results.length
+                              ? "Voir plus de résultats"
+                              : "Réduire les Résultats"
+                          )
+                        },
+                        on: { click: _vm.manageStep }
                       }),
                       _vm._v(" "),
                       _c(
-                        "div",
+                        "span",
                         {
                           directives: [
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.results.length > _vm.perPage,
-                              expression: "results.length > perPage"
+                              value: _vm.step > 1,
+                              expression: "step > 1"
                             }
                           ],
-                          staticClass:
-                            "flex items-center space-between bg-white rounded-lg p-1"
+                          staticClass: "mx-3 cursor-pointer",
+                          on: {
+                            click: function($event) {
+                              _vm.step = 1
+                            }
+                          }
                         },
                         [
-                          _c("span", {
-                            staticClass:
-                              "text-center text-grey-darker font-normal cursor-pointer w-full",
-                            domProps: {
-                              textContent: _vm._s(
-                                _vm.step * _vm.perPage < _vm.results.length
-                                  ? "Voir plus de résultats"
-                                  : "Réduire les Résultats"
-                              )
-                            },
-                            on: { click: _vm.manageStep }
-                          }),
-                          _vm._v(" "),
                           _c(
-                            "span",
+                            "svg",
                             {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.step > 1,
-                                  expression: "step > 1"
-                                }
-                              ],
-                              staticClass: "mx-3 cursor-pointer",
-                              on: {
-                                click: function($event) {
-                                  _vm.step = 1
-                                }
+                              attrs: {
+                                width: "10",
+                                height: "10",
+                                version: "1.1",
+                                xmlns: "http://www.w3.org/2000/svg",
+                                viewBox: "0 0 64 64",
+                                "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                                "enable-background": "new 0 0 64 64"
                               }
                             },
                             [
-                              _c(
-                                "svg",
-                                {
+                              _c("g", [
+                                _c("path", {
                                   attrs: {
-                                    width: "10",
-                                    height: "10",
-                                    version: "1.1",
-                                    xmlns: "http://www.w3.org/2000/svg",
-                                    viewBox: "0 0 64 64",
-                                    "xmlns:xlink":
-                                      "http://www.w3.org/1999/xlink",
-                                    "enable-background": "new 0 0 64 64"
+                                    fill: "#1D1D1B",
+                                    d:
+                                      "M28.941,31.786L0.613,60.114c-0.787,0.787-0.787,2.062,0,2.849c0.393,0.394,0.909,0.59,1.424,0.59   c0.516,0,1.031-0.196,1.424-0.59l28.541-28.541l28.541,28.541c0.394,0.394,0.909,0.59,1.424,0.59c0.515,0,1.031-0.196,1.424-0.59   c0.787-0.787,0.787-2.062,0-2.849L35.064,31.786L63.41,3.438c0.787-0.787,0.787-2.062,0-2.849c-0.787-0.786-2.062-0.786-2.848,0   L32.003,29.15L3.441,0.59c-0.787-0.786-2.061-0.786-2.848,0c-0.787,0.787-0.787,2.062,0,2.849L28.941,31.786z"
                                   }
-                                },
-                                [
-                                  _c("g", [
-                                    _c("path", {
-                                      attrs: {
-                                        fill: "#1D1D1B",
-                                        d:
-                                          "M28.941,31.786L0.613,60.114c-0.787,0.787-0.787,2.062,0,2.849c0.393,0.394,0.909,0.59,1.424,0.59   c0.516,0,1.031-0.196,1.424-0.59l28.541-28.541l28.541,28.541c0.394,0.394,0.909,0.59,1.424,0.59c0.515,0,1.031-0.196,1.424-0.59   c0.787-0.787,0.787-2.062,0-2.849L35.064,31.786L63.41,3.438c0.787-0.787,0.787-2.062,0-2.849c-0.787-0.786-2.062-0.786-2.848,0   L32.003,29.15L3.441,0.59c-0.787-0.786-2.061-0.786-2.848,0c-0.787,0.787-0.787,2.062,0,2.849L28.941,31.786z"
-                                      }
-                                    })
-                                  ])
-                                ]
-                              )
+                                })
+                              ])
                             ]
                           )
                         ]
                       )
-                    ],
-                    2
+                    ]
                   )
-                : _c("div", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "button ml-auto",
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.$modal.show("new-person", {
-                              input: _vm.q
-                            })
-                          }
-                        }
-                      },
-                      [_vm._v("Créer la Personne")]
-                    )
-                  ])
-            ]
-          ),
-          _vm._v(" "),
-          _vm.results.length == 0
-            ? _c("div", { staticClass: "flex-1" }, [_vm._m(0)])
-            : _vm._e()
+                ],
+                2
+              )
+            : _c("div", { staticClass: "w-full flex-1" }, [_vm._m(0)])
         ])
       : _c("div", [
           _c("div", { staticClass: "flex items-center justify-between mb-3" }, [

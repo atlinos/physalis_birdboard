@@ -40,10 +40,7 @@ class Project extends Model
     public function search($request)
     {
         return $this->people()
-            ->where(function ($query) use ($request) {
-                $query->where('name', 'LIKE', $request . '%')
-                    ->orWhere('firstname', 'LIKE', $request . '%');
-            })
+            ->where(\DB::raw('CONCAT(name," ",firstname)'), 'like', $request . '%')
             ->get();
     }
 
