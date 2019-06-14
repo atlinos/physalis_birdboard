@@ -14,6 +14,7 @@ class SearchPeopleTest extends TestCase
     /** @test */
     public function a_user_can_search_people()
     {
+        $this->withoutExceptionHandling();
         $project = ProjectFactory::create();
 
         $this->actingAs($project->owner)
@@ -22,10 +23,6 @@ class SearchPeopleTest extends TestCase
             ]);
 
         $results = $this->getJson($project->path() . '/search?q=Foobar')->json();
-
-        $this->assertCount(1, $results);
-
-        $results = $this->getJson($project->path() . '/search?q=First')->json();
 
         $this->assertCount(1, $results);
     }

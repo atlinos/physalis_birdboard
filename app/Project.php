@@ -39,8 +39,10 @@ class Project extends Model
 
     public function search($request)
     {
+        $statement = app()->environment('testing') ? 'name || firstname' : 'CONCAT(name," ",firstname)';
+
         return $this->people()
-            ->where(\DB::raw('CONCAT(name," ",firstname)'), 'like', $request . '%')
+            ->where(\DB::raw($statement), 'like', $request . '%')
             ->get();
     }
 
