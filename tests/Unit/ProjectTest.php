@@ -68,4 +68,23 @@ class ProjectTest extends TestCase
 
         $this->assertNotEquals($results[0]->id, $personNotInProject->id);
     }
+
+    /** @test */
+    public function it_manages_its_people_count_when_a_person_is_created_or_deleted()
+    {
+        $project = ProjectFactory::create();
+
+        $project->addPerson(['name' => 'Doe', 'firstname' => 'John']);
+
+        $this->assertEquals(1, $project->fresh()->people_count);
+
+        $sally = $project->addPerson(['name' => 'Doe', 'firstname' => 'Sally']);
+
+        $this->assertEquals(2, $project->fresh()->people_count);
+
+        $this->actingAs($project->owner)
+            ->delete($sally->path());
+
+        $this->assertEquals(1, $project->fresh()->people_count);
+    }
 }

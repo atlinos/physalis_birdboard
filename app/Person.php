@@ -13,6 +13,19 @@ class Person extends Model
 
     protected $touches = ['project'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($person) {
+            $person->project->increment('people_count');
+        });
+
+        static::deleting(function ($person) {
+            $person->project->decrement('people_count');
+        });
+    }
+
     public function path()
     {
         return '/projects/' . $this->project_id . '/persons/' . $this->id;
