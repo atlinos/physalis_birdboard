@@ -3,7 +3,7 @@
         <a href="{{ $project->path() }}" class="text-black no-underline">{{ $project->title }}</a>
     </h3>
 
-    <div class="text-grey mb-4 flex-1">{{ str_limit($project->description, 100) }}</div>
+    <div class="text-grey mb-4 flex-1">{{ \Illuminate\Support\Str::limit($project->description, 100) }}</div>
 
     @can('manage', $project)
         <footer class="flex items-center justify-between">

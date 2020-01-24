@@ -2,8 +2,9 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\Model;
+use App\Person;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 $factory->define(App\Person::class, function (Faker $faker) {
     return [

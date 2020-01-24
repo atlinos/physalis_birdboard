@@ -22,7 +22,7 @@ class PersonTest extends TestCase
             $person->path()
         );
     }
-    
+
     /** @test */
     public function it_belongs_to_a_project()
     {
