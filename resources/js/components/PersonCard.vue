@@ -14,7 +14,7 @@
 
         <span
             v-if="(person.birthdate || person.birthplace) && (person.death_date || person.death_place)"
-            class="text-sm text-grey ml-3">/</span>
+            class="text-sm text-grey ml-3">|</span>
 
         <div v-if="person.death_date || person.death_place || person.death_age" class="text-sm text-grey ml-3">
             <span v-text="person.gender == 'M' ? 'Décédé' : (person.gender == 'F' ? 'Décédée' : 'Décédé(e)')"></span>
@@ -36,7 +36,7 @@
 
         methods: {
             path(val) {
-                return '/projects/' + val.project_id + '/persons/' + val.id;
+                return '/projects/' + val.project_id + '/people/' + val.id;
             },
 
             datify(val) {

@@ -62,4 +62,5 @@
 
     <new-project-modal :project="{{ $project }}"></new-project-modal>
     <new-person-modal></new-person-modal>
+    <search-person-modal></search-person-modal>
 @endsection

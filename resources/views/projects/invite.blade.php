@@ -1,6 +1,6 @@
 <div class="card flex flex-col mt-3">
     <h3 class="font-normal text-xl py-4 mb-3 -ml-5 border-l-4 border-blue-light pl-4">
-        Inviter un Utilisateur
+        Inviter un utilisateur
     </h3>
 
     <form method="POST" action="{{ $project->path() . '/invitations' }}">

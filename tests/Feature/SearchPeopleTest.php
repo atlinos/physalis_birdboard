@@ -18,7 +18,7 @@ class SearchPeopleTest extends TestCase
         $project = ProjectFactory::create();
 
         $this->actingAs($project->owner)
-            ->post($project->path() . '/persons', [
+            ->post($project->path() . '/people', [
                 'name' => 'Foobar People', 'firstname' => 'First People'
             ]);
 
@@ -36,7 +36,7 @@ class SearchPeopleTest extends TestCase
         $project = ProjectFactory::ownedBy($sally)->create();
 
         $this->actingAs($sally)
-            ->post($project->path() . '/persons', [
+            ->post($project->path() . '/people', [
                 'name' => 'Foobar People', 'firstname' => 'First People'
             ]);
 

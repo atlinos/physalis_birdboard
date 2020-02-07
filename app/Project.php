@@ -43,12 +43,14 @@ class Project extends Model
 
         return $this->people()
             ->where(\DB::raw($statement), 'like', $request . '%')
+            ->orderBy('name')
+            ->orderBy('firstname')
             ->get();
     }
 
     public function lastPeople()
     {
-        return $this->people()->latest()->limit(10);
+        return $this->people()->latest()->limit(5);
     }
 
     public function addPerson($attributes)

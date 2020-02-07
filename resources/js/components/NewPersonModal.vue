@@ -2,6 +2,7 @@
     <modal
         name="new-person"
         classes="p-10 bg-white rounded-lg"
+        style="z-index:1000"
         @before-open="beforeOpen"
         height="auto">
 
@@ -19,6 +20,7 @@
                     <div class="flex-1 mr-2 mb-4">
                         <label for="name" class="text-sm block mb-2">Nom</label>
                         <input type="text"
+                               v-focus="focused" @focus="focused = true" @blur="focused = false"
                                name="name"
                                class="border border-grey p-2 text-sm block w-full rounded text-grey"
                                :class="errors.name ? 'border-red' : 'border-grey'"
@@ -122,12 +124,15 @@
 
 <script>
     import moment from 'moment';
+    import { focus } from 'vue-focus';
 
     export default {
+        directives: { focus: focus },
         props: ['person'],
 
         data() {
             return {
+                focused: true,
                 editable: this.person,
                 form: {
                     name: this.person ? this.person.name : '',
@@ -187,7 +192,7 @@
                             .then(response => location = response.data.message)
                             .catch((error) => this.errors = error.response.data.errors);
                     } else {
-                        location = (await axios.post(location.pathname + '/persons', this.form)).data.message;
+                        location = (await axios.post(location.pathname + '/people', this.form)).data.message;
                     }
                 } catch (error) {
                     this.errors = error.response.data.errors;

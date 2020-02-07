@@ -38,7 +38,7 @@ class ProjectPeopleController extends Controller
     {
         $this->authorize('update', $person);
 
-        return view('persons.show', compact('project', 'person'));
+        return view('people.show', compact('project', 'person'));
     }
 
     public function update(Project $project, Person $person)

@@ -26,6 +26,7 @@ Vue.use(VModal);
 
 Vue.component('new-project-modal', require('./components/NewProjectModal.vue').default);
 Vue.component('new-person-modal', require('./components/NewPersonModal.vue').default);
+Vue.component('search-person-modal', require('./components/SearchPersonModal.vue').default);
 Vue.component('people-list', require('./components/PeopleList.vue').default);
 Vue.component('person-card', require('./components/PersonCard.vue').default);
 Vue.component('delete-project-modal', require('./components/DeleteProjectModal.vue').default);

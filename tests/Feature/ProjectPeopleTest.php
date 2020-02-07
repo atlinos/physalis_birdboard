@@ -16,11 +16,11 @@ class ProjectPeopleTest extends TestCase
     {
         $project = factory('App\Project')->create();
 
-        $this->post($project->path() . '/persons')->assertRedirect('login');
+        $this->post($project->path() . '/people')->assertRedirect('login');
     }
 
     /** @test */
-    public function only_the_owner_of_a_project_may_add_persons()
+    public function only_the_owner_of_a_project_may_add_people()
     {
         $this->signIn();
 
@@ -31,14 +31,14 @@ class ProjectPeopleTest extends TestCase
             'firstname' => 'John'
         ];
 
-        $this->post($project->path() . '/persons', $attributes)
+        $this->post($project->path() . '/people', $attributes)
             ->assertStatus(403);
 
         $this->assertDatabaseMissing('people', $attributes);
     }
 
     /** @test */
-    public function a_project_can_have_persons()
+    public function a_project_can_have_people()
     {
         $project = ProjectFactory::create();
 
@@ -48,8 +48,8 @@ class ProjectPeopleTest extends TestCase
         ];
 
         $response = $this->actingAs($project->owner)
-            ->post($project->path() . '/persons', $attributes);
-        
+            ->post($project->path() . '/people', $attributes);
+
         $person = Person::first();
 
         $response->assertRedirect($person->path());
@@ -121,7 +121,7 @@ class ProjectPeopleTest extends TestCase
     }
 
     /** @test */
-    function unauthorized_users_cannot_delete_persons()
+    function unauthorized_users_cannot_delete_people()
     {
         $person = factory('App\Person')->create();
 
@@ -149,7 +149,7 @@ class ProjectPeopleTest extends TestCase
         $attributes = factory('App\Person')->raw(['name' => '']);
 
         $this->actingAs($project->owner)
-            ->post($project->path() . '/persons', $attributes)
+            ->post($project->path() . '/people', $attributes)
             ->assertSessionHasErrors('name');
     }
 
@@ -161,7 +161,7 @@ class ProjectPeopleTest extends TestCase
         $attributes = factory('App\Person')->raw(['firstname' => '']);
 
         $this->actingAs($project->owner)
-            ->post($project->path() . '/persons', $attributes)
+            ->post($project->path() . '/people', $attributes)
             ->assertSessionHasErrors('firstname');
     }
 }

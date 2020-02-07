@@ -8,13 +8,13 @@ use App\User;
 
 class ProjectFactory
 {
-    protected $personsCount = 0;
+    protected $peopleCount = 0;
 
     protected $user;
 
     public function withPeople($count)
     {
-        $this->personsCount = $count;
+        $this->peopleCount = $count;
 
         return $this;
     }
@@ -32,7 +32,7 @@ class ProjectFactory
             'owner_id' => $this->user ?: factory(User::class)
         ]);
 
-        factory(Person::class, $this->personsCount)->create([
+        factory(Person::class, $this->peopleCount)->create([
             'project_id' => $project->id
         ]);
 

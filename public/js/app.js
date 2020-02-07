@@ -1934,6 +1934,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_focus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-focus */ "./node_modules/vue-focus/dist/vue-focus.common.js");
+/* harmony import */ var vue_focus__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_focus__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2062,11 +2064,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  directives: {
+    focus: vue_focus__WEBPACK_IMPORTED_MODULE_2__["focus"]
+  },
   props: ['person'],
   data: function data() {
     return {
+      focused: true,
       editable: this.person,
       form: {
         name: this.person ? this.person.name : '',
@@ -2144,7 +2153,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 _context.next = 7;
-                return axios.post(location.pathname + '/persons', this.form);
+                return axios.post(location.pathname + '/people', this.form);
 
               case 7:
                 location = _context.sent.data.message;
@@ -2201,6 +2210,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_focus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-focus */ "./node_modules/vue-focus/dist/vue-focus.common.js");
+/* harmony import */ var vue_focus__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_focus__WEBPACK_IMPORTED_MODULE_1__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2243,10 +2254,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  directives: {
+    focus: vue_focus__WEBPACK_IMPORTED_MODULE_1__["focus"]
+  },
   props: ['project'],
   data: function data() {
     return {
+      focused: true,
       editable: this.project,
       form: {
         title: this.project ? this.project.title : '',
@@ -2401,6 +2418,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2408,7 +2431,7 @@ __webpack_require__.r(__webpack_exports__);
       results: '',
       lastPeople: [],
       step: 1,
-      perPage: 10
+      perPage: 5
     };
   },
   created: function created() {
@@ -2424,7 +2447,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     fetch: function fetch() {
-      axios.get("".concat(location.pathname, "/persons")).then(this.refresh);
+      axios.get("".concat(location.pathname, "/people")).then(this.refresh);
     },
     refresh: function refresh(_ref) {
       var data = _ref.data;
@@ -2432,14 +2455,21 @@ __webpack_require__.r(__webpack_exports__);
       this.step = 1;
     },
     visible: function visible(index, step) {
-      return index < step * this.perPage;
+      return index < step * this.perPage && index >= (step - 1) * this.perPage;
     },
-    manageStep: function manageStep() {
+    decreaseStep: function decreaseStep() {
+      if (this.step > 1) {
+        return this.step--;
+      }
+
+      return step;
+    },
+    increaseStep: function increaseStep() {
       if (this.step * this.perPage < this.results.length) {
         return this.step++;
       }
 
-      return this.step = 1;
+      return step;
     }
   }
 });
@@ -2493,10 +2523,141 @@ __webpack_require__.r(__webpack_exports__);
   props: ['person'],
   methods: {
     path: function path(val) {
-      return '/projects/' + val.project_id + '/persons/' + val.id;
+      return '/projects/' + val.project_id + '/people/' + val.id;
     },
     datify: function datify(val) {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(val)).format('DD/MM/YYYY');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SearchPersonModal.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SearchPersonModal.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_focus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-focus */ "./node_modules/vue-focus/dist/vue-focus.common.js");
+/* harmony import */ var vue_focus__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_focus__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  directives: {
+    focus: vue_focus__WEBPACK_IMPORTED_MODULE_0__["focus"]
+  },
+  data: function data() {
+    return {
+      focused: true,
+      q: '',
+      results: '',
+      lastPeople: [],
+      step: 1,
+      perPage: 5
+    };
+  },
+  created: function created() {
+    this.fetch();
+  },
+  methods: {
+    submit: function submit() {
+      var _this = this;
+
+      axios.get(location.pathname + '/search?q=' + this.q).then(function (response) {
+        _this.results = response.data;
+        _this.step = 1;
+      });
+    },
+    fetch: function fetch() {
+      axios.get("".concat(location.pathname, "/people")).then(this.refresh);
+    },
+    refresh: function refresh(_ref) {
+      var data = _ref.data;
+      this.lastPeople = data;
+      this.step = 1;
+    },
+    visible: function visible(index, step) {
+      return index < step * this.perPage && index >= (step - 1) * this.perPage;
+    },
+    decreaseStep: function decreaseStep() {
+      if (this.step > 1) {
+        return this.step--;
+      }
+
+      return step;
+    },
+    increaseStep: function increaseStep() {
+      if (this.step * this.perPage < this.results.length) {
+        return this.step++;
+      }
+
+      return step;
     }
   }
 });
@@ -56227,6 +56388,56 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-focus/dist/vue-focus.common.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/vue-focus/dist/vue-focus.common.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+Vue = 'default' in Vue ? Vue['default'] : Vue;
+
+var version = '2.1.0';
+
+var compatible = (/^2\./).test(Vue.version);
+if (!compatible) {
+  Vue.util.warn('VueFocus ' + version + ' only supports Vue 2.x, and does not support Vue ' + Vue.version);
+}
+
+var focus = {
+  inserted: function(el, binding) {
+    if (binding.value) el.focus();
+    else el.blur();
+  },
+
+  componentUpdated: function(el, binding) {
+    if (binding.modifiers.lazy) {
+      if (Boolean(binding.value) === Boolean(binding.oldValue)) {
+        return;
+      }
+    }
+
+    if (binding.value) el.focus();
+    else el.blur();
+  },
+};
+
+var mixin = {
+  directives: {
+    focus: focus,
+  },
+};
+
+exports.version = version;
+exports.focus = focus;
+exports.mixin = mixin;
+
+/***/ }),
+
 /***/ "./node_modules/vue-js-modal/dist/index.js":
 /*!*************************************************!*\
   !*** ./node_modules/vue-js-modal/dist/index.js ***!
@@ -56414,6 +56625,7 @@ var render = function() {
   return _c(
     "modal",
     {
+      staticStyle: { "z-index": "1000" },
       attrs: {
         name: "new-person",
         classes: "p-10 bg-white rounded-lg",
@@ -56458,6 +56670,12 @@ var render = function() {
               _c("input", {
                 directives: [
                   {
+                    name: "focus",
+                    rawName: "v-focus",
+                    value: _vm.focused,
+                    expression: "focused"
+                  },
+                  {
                     name: "model",
                     rawName: "v-model",
                     value: _vm.form.name,
@@ -56470,6 +56688,12 @@ var render = function() {
                 attrs: { type: "text", name: "name" },
                 domProps: { value: _vm.form.name },
                 on: {
+                  focus: function($event) {
+                    _vm.focused = true
+                  },
+                  blur: function($event) {
+                    _vm.focused = false
+                  },
                   input: function($event) {
                     if ($event.target.composing) {
                       return
@@ -56923,6 +57147,12 @@ var render = function() {
             _c("input", {
               directives: [
                 {
+                  name: "focus",
+                  rawName: "v-focus",
+                  value: _vm.focused,
+                  expression: "focused"
+                },
+                {
                   name: "model",
                   rawName: "v-model",
                   value: _vm.form.title,
@@ -56934,6 +57164,12 @@ var render = function() {
               attrs: { type: "text", name: "title" },
               domProps: { value: _vm.form.title },
               on: {
+                focus: function($event) {
+                  _vm.focused = true
+                },
+                blur: function($event) {
+                  _vm.focused = false
+                },
                 input: function($event) {
                   if ($event.target.composing) {
                     return
@@ -57044,9 +57280,10 @@ var render = function() {
         ],
         staticClass: "card-sm w-full",
         attrs: {
+          autofocus: "",
           type: "text",
           name: "q",
-          placeholder: "Recherche via Nom Prénom"
+          placeholder: "Recherche par Nom Prénom"
         },
         domProps: { value: _vm.q },
         on: {
@@ -57093,7 +57330,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Créer la Personne")]
+                [_vm._v("Créer la personne")]
               )
             ]
           ),
@@ -57135,69 +57372,30 @@ var render = function() {
                           expression: "results.length > perPage"
                         }
                       ],
-                      staticClass:
-                        "flex items-center space-between bg-white rounded-lg p-1"
+                      staticClass: "flex items-center w-full justify-around"
                     },
                     [
-                      _c("span", {
+                      _c("button", {
                         staticClass:
-                          "text-center text-grey-darker font-normal cursor-pointer w-full",
-                        domProps: {
-                          textContent: _vm._s(
-                            _vm.step * _vm.perPage < _vm.results.length
-                              ? "Voir plus de résultats"
-                              : "Réduire les Résultats"
-                          )
-                        },
-                        on: { click: _vm.manageStep }
+                          "text-center text-grey-darker text-sm focus:outline-none bg-white rounded-lg px-5 py-2",
+                        class:
+                          _vm.step > 1
+                            ? "cursor-pointer"
+                            : "opacity-50 cursor-default",
+                        domProps: { textContent: _vm._s("Précédent") },
+                        on: { click: _vm.decreaseStep }
                       }),
                       _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.step > 1,
-                              expression: "step > 1"
-                            }
-                          ],
-                          staticClass: "mx-3 cursor-pointer",
-                          on: {
-                            click: function($event) {
-                              _vm.step = 1
-                            }
-                          }
-                        },
-                        [
-                          _c(
-                            "svg",
-                            {
-                              attrs: {
-                                width: "10",
-                                height: "10",
-                                version: "1.1",
-                                xmlns: "http://www.w3.org/2000/svg",
-                                viewBox: "0 0 64 64",
-                                "xmlns:xlink": "http://www.w3.org/1999/xlink",
-                                "enable-background": "new 0 0 64 64"
-                              }
-                            },
-                            [
-                              _c("g", [
-                                _c("path", {
-                                  attrs: {
-                                    fill: "#1D1D1B",
-                                    d:
-                                      "M28.941,31.786L0.613,60.114c-0.787,0.787-0.787,2.062,0,2.849c0.393,0.394,0.909,0.59,1.424,0.59   c0.516,0,1.031-0.196,1.424-0.59l28.541-28.541l28.541,28.541c0.394,0.394,0.909,0.59,1.424,0.59c0.515,0,1.031-0.196,1.424-0.59   c0.787-0.787,0.787-2.062,0-2.849L35.064,31.786L63.41,3.438c0.787-0.787,0.787-2.062,0-2.849c-0.787-0.786-2.062-0.786-2.848,0   L32.003,29.15L3.441,0.59c-0.787-0.786-2.061-0.786-2.848,0c-0.787,0.787-0.787,2.062,0,2.849L28.941,31.786z"
-                                  }
-                                })
-                              ])
-                            ]
-                          )
-                        ]
-                      )
+                      _c("button", {
+                        staticClass:
+                          "text-center text-grey-darker text-sm focus:outline-none bg-white rounded-lg px-5 py-2",
+                        class:
+                          _vm.step * _vm.perPage < _vm.results.length
+                            ? "cursor-pointer"
+                            : "opacity-50 cursor-default",
+                        domProps: { textContent: _vm._s("Suivant") },
+                        on: { click: _vm.increaseStep }
+                      })
                     ]
                   )
                 ],
@@ -57208,25 +57406,44 @@ var render = function() {
       : _c("div", [
           _c("div", { staticClass: "flex items-center justify-between mb-3" }, [
             _c("h2", { staticClass: "text-grey font-normal text-lg" }, [
-              _vm._v("Récemment Ajouté")
+              _vm._v("Récemment ajouté")
             ]),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "button ml-3",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.$modal.show("new-person", { input: "" })
+            _c("div", [
+              _c(
+                "button",
+                {
+                  staticClass: "button ml-3",
+                  class: _vm.lastPeople.length
+                    ? ""
+                    : "opacity-50 cursor-not-allowed",
+                  attrs: { disabled: !_vm.lastPeople.length },
+                  on: {
+                    click: function($event) {
+                      return _vm.$modal.show("search-person", { input: "" })
+                    }
                   }
-                }
-              },
-              [_vm._v("Créer une Personne")]
-            )
+                },
+                [_vm._v("Rechercher")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button ml-3",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.$modal.show("new-person", { input: "" })
+                    }
+                  }
+                },
+                [_vm._v("Créer une personne")]
+              )
+            ])
           ]),
           _vm._v(" "),
-          _vm.lastPeople
+          _vm.lastPeople.length
             ? _c(
                 "div",
                 _vm._l(_vm.lastPeople, function(person) {
@@ -57327,7 +57544,7 @@ var render = function() {
     _vm._v(" "),
     (_vm.person.birthdate || _vm.person.birthplace) &&
     (_vm.person.death_date || _vm.person.death_place)
-      ? _c("span", { staticClass: "text-sm text-grey ml-3" }, [_vm._v("/")])
+      ? _c("span", { staticClass: "text-sm text-grey ml-3" }, [_vm._v("|")])
       : _vm._e(),
     _vm._v(" "),
     _vm.person.death_date || _vm.person.death_place || _vm.person.death_age
@@ -57377,6 +57594,215 @@ var render = function() {
         ])
       : _vm._e()
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SearchPersonModal.vue?vue&type=template&id=d3772a96&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SearchPersonModal.vue?vue&type=template&id=d3772a96& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "modal",
+    {
+      attrs: {
+        name: "search-person",
+        classes:
+          "fixed inset-0 w-full h-screen flex items-center justify-center bg-semi-75",
+        height: "auto"
+      }
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "w-full max-w-2xl bg-white shadow-lg rounded-lg p-8" },
+        [
+          _c("div", { staticClass: "flex items-center mb-3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "focus",
+                  rawName: "v-focus",
+                  value: _vm.focused,
+                  expression: "focused"
+                },
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.q,
+                  expression: "q"
+                }
+              ],
+              staticClass: "card-sm w-full",
+              attrs: {
+                type: "text",
+                name: "q",
+                placeholder: "Recherche par Nom Prénom"
+              },
+              domProps: { value: _vm.q },
+              on: {
+                focus: function($event) {
+                  _vm.focused = true
+                },
+                blur: function($event) {
+                  _vm.focused = false
+                },
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.q = $event.target.value
+                  },
+                  _vm.submit
+                ]
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _vm.results
+            ? _c("div", [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "flex flex-wrap items-center justify-between mb-3"
+                  },
+                  [
+                    _c("h2", {
+                      staticClass: "text-grey font-normal text-lg",
+                      domProps: {
+                        textContent: _vm._s(
+                          "Résultats pour : " +
+                            _vm.q +
+                            " (" +
+                            _vm.results.length +
+                            ")"
+                        )
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "button ml-auto",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.$modal.show("new-person", {
+                              input: _vm.q
+                            })
+                          }
+                        }
+                      },
+                      [_vm._v("Créer la personne\n                ")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.results.length > 0
+                  ? _c(
+                      "div",
+                      { staticClass: "w-full flex-1" },
+                      [
+                        _vm._l(_vm.results, function(result, index) {
+                          return _c(
+                            "div",
+                            { staticClass: "mb-3" },
+                            [
+                              _c("person-card", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.visible(index, _vm.step),
+                                    expression: "visible(index, step)"
+                                  }
+                                ],
+                                attrs: { person: result }
+                              })
+                            ],
+                            1
+                          )
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.results.length > _vm.perPage,
+                                expression: "results.length > perPage"
+                              }
+                            ],
+                            staticClass:
+                              "flex items-center w-full justify-around"
+                          },
+                          [
+                            _c("button", {
+                              staticClass:
+                                "text-center text-grey-darker text-sm focus:outline-none bg-grey-light rounded-lg px-5 py-2",
+                              class:
+                                _vm.step > 1
+                                  ? "cursor-pointer"
+                                  : "opacity-50 cursor-default",
+                              domProps: { textContent: _vm._s("Précédent") },
+                              on: { click: _vm.decreaseStep }
+                            }),
+                            _vm._v(" "),
+                            _c("button", {
+                              staticClass:
+                                "text-center text-grey-darker text-sm focus:outline-none bg-grey-light rounded-lg px-5 py-2",
+                              class:
+                                _vm.step * _vm.perPage < _vm.results.length
+                                  ? "cursor-pointer"
+                                  : "opacity-50 cursor-default",
+                              domProps: { textContent: _vm._s("Suivant") },
+                              on: { click: _vm.increaseStep }
+                            })
+                          ]
+                        )
+                      ],
+                      2
+                    )
+                  : _c("div", { staticClass: "w-full flex-1" }, [
+                      _c("div", { staticClass: "card-sm my-3" }, [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "font-normal no-underline text-black"
+                          },
+                          [
+                            _vm._v(
+                              "\n                    Aucun résultat\n                "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+              ])
+            : _vm._e()
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -69554,6 +69980,7 @@ Vue.use(vue_js_modal__WEBPACK_IMPORTED_MODULE_0___default.a);
 
 Vue.component('new-project-modal', __webpack_require__(/*! ./components/NewProjectModal.vue */ "./resources/js/components/NewProjectModal.vue")["default"]);
 Vue.component('new-person-modal', __webpack_require__(/*! ./components/NewPersonModal.vue */ "./resources/js/components/NewPersonModal.vue")["default"]);
+Vue.component('search-person-modal', __webpack_require__(/*! ./components/SearchPersonModal.vue */ "./resources/js/components/SearchPersonModal.vue")["default"]);
 Vue.component('people-list', __webpack_require__(/*! ./components/PeopleList.vue */ "./resources/js/components/PeopleList.vue")["default"]);
 Vue.component('person-card', __webpack_require__(/*! ./components/PersonCard.vue */ "./resources/js/components/PersonCard.vue")["default"]);
 Vue.component('delete-project-modal', __webpack_require__(/*! ./components/DeleteProjectModal.vue */ "./resources/js/components/DeleteProjectModal.vue")["default"]);
@@ -70042,6 +70469,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/SearchPersonModal.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/SearchPersonModal.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SearchPersonModal_vue_vue_type_template_id_d3772a96___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SearchPersonModal.vue?vue&type=template&id=d3772a96& */ "./resources/js/components/SearchPersonModal.vue?vue&type=template&id=d3772a96&");
+/* harmony import */ var _SearchPersonModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SearchPersonModal.vue?vue&type=script&lang=js& */ "./resources/js/components/SearchPersonModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SearchPersonModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SearchPersonModal_vue_vue_type_template_id_d3772a96___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SearchPersonModal_vue_vue_type_template_id_d3772a96___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/SearchPersonModal.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/SearchPersonModal.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/SearchPersonModal.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SearchPersonModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SearchPersonModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SearchPersonModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SearchPersonModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/SearchPersonModal.vue?vue&type=template&id=d3772a96&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/SearchPersonModal.vue?vue&type=template&id=d3772a96& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SearchPersonModal_vue_vue_type_template_id_d3772a96___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SearchPersonModal.vue?vue&type=template&id=d3772a96& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SearchPersonModal.vue?vue&type=template&id=d3772a96&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SearchPersonModal_vue_vue_type_template_id_d3772a96___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SearchPersonModal_vue_vue_type_template_id_d3772a96___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -70060,8 +70556,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\physalis\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\physalis\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\wamp64\www\physalis\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\wamp64\www\physalis\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

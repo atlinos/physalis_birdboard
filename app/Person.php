@@ -28,7 +28,7 @@ class Person extends Model
 
     public function path()
     {
-        return '/projects/' . $this->project_id . '/persons/' . $this->id;
+        return '/projects/' . $this->project_id . '/people/' . $this->id;
     }
 
     public function project()

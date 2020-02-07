@@ -18,7 +18,7 @@ class PersonTest extends TestCase
         $person = factory(Person::class)->create();
 
         $this->assertEquals(
-            '/projects/' . $person->project_id . '/persons/' . $person->id,
+            '/projects/' . $person->project_id . '/people/' . $person->id,
             $person->path()
         );
     }

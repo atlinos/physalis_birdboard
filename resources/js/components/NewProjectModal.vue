@@ -8,6 +8,7 @@
             <div class="mb-4">
                 <label for="title" class="text-sm block mb-2">Titre</label>
                 <input type="text"
+                       v-focus="focused" @focus="focused = true" @blur="focused = false"
                        name="title"
                        class="border p-2 text-sm block w-full rounded"
                        :class="errors.title ? 'border-red' : 'border-grey-light'"
@@ -35,11 +36,15 @@
 </template>
 
 <script>
+    import { focus } from 'vue-focus';
+
     export default {
+        directives: { focus: focus },
         props: ['project'],
 
         data() {
             return {
+                focused: true,
                 editable: this.project,
                 form: {
                     title: this.project ? this.project.title : '',
