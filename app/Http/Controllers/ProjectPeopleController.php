@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PersonRequest;
 use App\Person;
 use App\Project;
 use Illuminate\Http\Request;
@@ -13,19 +14,11 @@ class ProjectPeopleController extends Controller
         return $project->lastPeople;
     }
 
-    public function store(Project $project)
+    public function store(PersonRequest $request, Project $project)
     {
         $this->authorize('update', $project);
 
-        request()->validate([
-            'name' => 'required',
-            'firstname' => 'required'
-        ], [
-            'name.required' => 'Le nom est obligatoire',
-            'firstname.required' => 'Le prénom est obligatoire',
-        ]);
-
-        $person = $project->addPerson(request()->all());
+        $person = $project->addPerson($request->all());
 
         if (request()->wantsJson()) {
             return ['message' => $person->path()];
@@ -41,29 +34,13 @@ class ProjectPeopleController extends Controller
         return view('people.show', compact('project', 'person'));
     }
 
-    public function update(Project $project, Person $person)
+    public function update(Project $project, Person $person, PersonRequest $request)
     {
         $this->authorize('update', $person);
 
-        if (! request()->has('notes')) {
-            request()->validate([
-                'name' => 'required',
-                'firstname' => 'required'
-            ], [
-                'name.required' => 'Le nom est obligatoire',
-                'firstname.required' => 'Le prénom est obligatoire',
-            ]);
-        } else {
-            request()->validate([
-                'notes' => 'min:3'
-            ], [
-                'notes.min' => 'Les notes doivent au moins faire 3 caractères.'
-            ]);
-        }
+        $person->update($request->all());
 
-        $person->update(request()->all());
-
-        if (request()->wantsJson()) {
+        if ($request->wantsJson()) {
             return ['message' => $person->path()];
         }
 

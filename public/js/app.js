@@ -2066,6 +2066,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2185,7 +2191,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return val.charAt(0).toUpperCase() + val.slice(1);
     },
     beforeOpen: function beforeOpen(event) {
-      if (event.params.input !== '') {
+      if (event.params !== undefined && event.params.input !== '') {
         var input = event.params.input.split(' ');
         this.form.name = input[0];
 
@@ -56902,6 +56908,7 @@ var render = function() {
                 ],
                 staticClass:
                   "border border-grey p-2 text-sm block w-full rounded text-grey",
+                class: _vm.errors.birthdate ? "border-red" : "border-grey",
                 attrs: { type: "date", name: "birthdate" },
                 domProps: { value: _vm.form.birthdate },
                 on: {
@@ -56912,7 +56919,14 @@ var render = function() {
                     _vm.$set(_vm.form, "birthdate", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _vm.errors.birthdate
+                ? _c("span", {
+                    staticClass: "text-sm italic text-red",
+                    domProps: { textContent: _vm._s(_vm.errors.birthdate[0]) }
+                  })
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flex-1 ml-2 mb-4" }, [
@@ -56972,6 +56986,7 @@ var render = function() {
                 ],
                 staticClass:
                   "border border-grey p-2 text-sm block w-full rounded text-grey",
+                class: _vm.errors.death_date ? "border-red" : "border-grey",
                 attrs: { type: "date", name: "death_date" },
                 domProps: { value: _vm.form.death_date },
                 on: {
@@ -56982,7 +56997,14 @@ var render = function() {
                     _vm.$set(_vm.form, "death_date", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _vm.errors.death_date
+                ? _c("span", {
+                    staticClass: "text-sm italic text-red",
+                    domProps: { textContent: _vm._s(_vm.errors.death_date[0]) }
+                  })
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flex-1 ml-2 mb-4" }, [
@@ -57041,6 +57063,7 @@ var render = function() {
               ],
               staticClass:
                 "border border-grey p-2 text-sm block w-full rounded text-grey",
+              class: _vm.errors.death_age ? "border-red" : "border-grey",
               attrs: { type: "text", name: "death_age" },
               domProps: { value: _vm.form.death_age },
               on: {
@@ -57051,7 +57074,14 @@ var render = function() {
                   _vm.$set(_vm.form, "death_age", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _vm.errors.death_age
+              ? _c("span", {
+                  staticClass: "text-sm italic text-red",
+                  domProps: { textContent: _vm._s(_vm.errors.death_age[0]) }
+                })
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("footer", { staticClass: "flex justify-end" }, [

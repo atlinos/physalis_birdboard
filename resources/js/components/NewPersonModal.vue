@@ -76,7 +76,9 @@
                         <input type="date"
                                name="birthdate"
                                class="border border-grey p-2 text-sm block w-full rounded text-grey"
+                               :class="errors.birthdate ? 'border-red' : 'border-grey'"
                                v-model="form.birthdate">
+                        <span class="text-sm italic text-red" v-if="errors.birthdate" v-text="errors.birthdate[0]"></span>
                     </div>
 
                     <div class="flex-1 ml-2 mb-4">
@@ -93,7 +95,9 @@
                         <input type="date"
                                name="death_date"
                                class="border border-grey p-2 text-sm block w-full rounded text-grey"
+                               :class="errors.death_date ? 'border-red' : 'border-grey'"
                                v-model="form.death_date">
+                        <span class="text-sm italic text-red" v-if="errors.death_date" v-text="errors.death_date[0]"></span>
                     </div>
 
                     <div class="flex-1 ml-2 mb-4">
@@ -110,7 +114,9 @@
                 <input type="text"
                        name="death_age"
                        class="border border-grey p-2 text-sm block w-full rounded text-grey"
+                       :class="errors.death_age ? 'border-red' : 'border-grey'"
                        v-model="form.death_age">
+                <span class="text-sm italic text-red" v-if="errors.death_age" v-text="errors.death_age[0]"></span>
             </div>
 
             <footer class="flex justify-end">
@@ -204,7 +210,7 @@
             },
 
             beforeOpen(event) {
-                if (event.params.input !== '') {
+                if (event.params !== undefined && event.params.input !== '') {
                     let input = event.params.input.split(' ');
 
                     this.form.name = input[0];
