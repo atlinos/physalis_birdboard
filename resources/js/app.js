@@ -31,6 +31,7 @@ Vue.component('people-list', require('./components/PeopleList.vue').default);
 Vue.component('person-card', require('./components/PersonCard.vue').default);
 Vue.component('delete-project-modal', require('./components/DeleteProjectModal.vue').default);
 Vue.component('delete-person-modal', require('./components/DeletePersonModal.vue').default);
+Vue.component('dropdown', require('./components/Dropdown.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
